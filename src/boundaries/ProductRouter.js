@@ -12,7 +12,7 @@ productRouter.get(`/:id`, productController.getProductById);
 // them san pham
 productRouter.post(`/add`, productController.insertProduct);
 
-//update san pham
+//sua san pham
 productRouter.put(`/:id`, productController.updateProduct);
 
 //delete san pham

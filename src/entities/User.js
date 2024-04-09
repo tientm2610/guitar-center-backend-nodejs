@@ -1,4 +1,4 @@
-import db from "../database/ConnectToDB.js";
+import db from "../ConnectToDB.js";
 
 const userColl = db.collection("user");
 

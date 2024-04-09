@@ -1,11 +1,11 @@
-import User from "../models/User.js";
+import User from "../entities/User.js";
 
-export const getAllUsers = async (req, res, next) => {
+export const getAllUsers = async (req, res) => {
   try {
     const users = await User.getAllUsers();
     res.json(users);
   } catch (error) {
-    next(error);
+    throw error
   }
 };
 

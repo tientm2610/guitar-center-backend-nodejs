@@ -4,6 +4,7 @@ import * as userController from "../controllers/UserController.js";
 
 const userRouter = express.Router();
 
+//get all
 userRouter.get("/", userController.getAllUsers);
 
 //dang ky

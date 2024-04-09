@@ -1,4 +1,4 @@
-import db from "../database/ConnectToDB.js";
+import db from "../ConnectToDB.js";
 
 const productColl = db.collection("product");
 
@@ -27,7 +27,6 @@ export default class Product {
   static getProductById = async (productId) => {
     try {
       const producExist = await productColl.findOne({ productId });
-      console.log(producExist);
       if (producExist) {
         let document = await productColl.findOne({ productId });
 
@@ -73,6 +72,16 @@ export default class Product {
         await productColl.deleteOne({productId})
     } catch (error) {
         throw error;
+    }
+  }
+
+  static findByCategory = async(id) =>{
+    try {  
+      let productInCategory = await productColl.find({ categoryId: id }).toArray();
+        return productInCategory;
+      
+    } catch (error) {
+     throw error 
     }
   }
 
