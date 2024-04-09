@@ -8,7 +8,7 @@ api.use(bodyParser.json())
 // api.use(`/products`, productService); 
 api.use(`/users`, userRouter);
 
-api.use(`/product`, productRouter);
+api.use(`/products`, productRouter);
 
 api.all("/*", (req, res) => {
     let data = {
