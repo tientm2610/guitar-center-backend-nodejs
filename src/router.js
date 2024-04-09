@@ -1,10 +1,14 @@
-const express = require('express');
+import express from "express";
+import bodyParser from "body-parser";
+import userRouter from "../src/routes/UserRouter.js";
+import productRouter from "../src/routes/ProductRouter.js"
 const api = express.Router();
-const productService = require(`./domain/service/ProductService.js`);
-const userService = require(`./domain/service/UserService.js`);
 
-api.use(`/products`, productService); 
-api.use(`/users`, userService);
+api.use(bodyParser.json())
+// api.use(`/products`, productService); 
+api.use(`/users`, userRouter);
+
+api.use(`/product`, productRouter);
 
 api.all("/*", (req, res) => {
     let data = {
@@ -16,4 +20,4 @@ api.all("/*", (req, res) => {
     console.log(data);
     res.status(500).json({ error: "Not implemented" });
   });
-module.exports = api;
+export default api;
