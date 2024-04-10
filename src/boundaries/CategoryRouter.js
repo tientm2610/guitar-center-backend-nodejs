@@ -15,6 +15,8 @@ categoryRouter.put(`/:id`, categoryController.updateCategory);
 //xoa category
 categoryRouter.delete(`/:id`, categoryController.deleteCategory);
 
+//lay product trong category
+categoryRouter.get(`/:id/products`, categoryController.getProductByCategoryId);
 
 
 export default categoryRouter;

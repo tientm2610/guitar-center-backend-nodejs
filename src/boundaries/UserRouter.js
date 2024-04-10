@@ -13,7 +13,7 @@ userRouter.post(`/register`, userController.createUser);
 //dang nhap
 userRouter.post(`/`, userController.loginUser);
 
-//logout
+//dang xuat
 userRouter.get(`/logout`, userController.logoutUser);
 
 //lay thong tin nguoi dung

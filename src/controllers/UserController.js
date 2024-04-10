@@ -94,13 +94,9 @@ export const loginUser = async (req,res) =>{
   if (!isValidPassword) {
     return res.status(401).json({ error: "Invalid username or password" });
   }
-  req.session.user = user;
+  req.session.user = user.username;
 
   res.json(user);
-}
-
-export const testSession = (req,res) =>{
-    res.send(req.session);
 }
 
 export const logoutUser = async (req, res) => {

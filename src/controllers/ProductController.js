@@ -13,11 +13,9 @@ export const getProductById = async(req, res) =>{
   const {id} = req.params;
 
   const product = await Product.getProductById(id);
-console.log(product)
   if (!product) {
     res.status(404).json({ error: `Product ${id} does not exist` });
   } 
-  res.local.id = product;
   res.json(product);
 }
 

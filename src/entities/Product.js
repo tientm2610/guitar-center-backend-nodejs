@@ -78,7 +78,9 @@ export default class Product {
   static findByCategory = async(id) =>{
     try {  
       let productInCategory = await productColl.find({ categoryId: id }).toArray();
-        return productInCategory;
+      const products = productInCategory.map((document) => new Product(document));
+  
+      return products;
       
     } catch (error) {
      throw error 
