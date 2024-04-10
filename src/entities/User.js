@@ -16,9 +16,9 @@ export default class User {
 
   static getAllUsers = async () => {
     try {
-     const documents = await userColl.find().toArray();
+     const allUsers = await userColl.find().toArray();
 
-      const users = documents.map((document) => new User(document))
+      const users = allUsers.map((user) => new User(user))
         return users;
     } catch (error) {
       throw error;
@@ -29,12 +29,12 @@ export default class User {
     
     try {
      // Tìm kiếm người dùng trong cơ sở dữ liệu
-     const userDocument = await userColl.findOne({ username });
+     const user = await userColl.findOne({ username });
 
      // Kiểm tra xem người dùng có tồn tại không
-     if (userDocument) {
+     if (user) {
          // Trả về một đối tượng User mới được tạo từ tài liệu của người dùng
-         return new User(userDocument);
+         return new User(user);
      } else {
          // Nếu không tìm thấy người dùng, trả về null hoặc một giá trị tùy ý khác để biểu thị rằng không có người dùng nào được tìm thấy
          return null;

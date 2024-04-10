@@ -15,9 +15,9 @@ export default class Product {
 
   static getAllProducts = async () => {
     try {
-      const documents = await productColl.find().toArray();
+      const allProducts = await productColl.find().toArray();
 
-      const products = documents.map((document) => new Product(document));
+      const products = allProducts.map((product) => new Product(product));
       return products;
     } catch (error) {
       throw error;
@@ -28,9 +28,9 @@ export default class Product {
     try {
       const producExist = await productColl.findOne({ productId });
       if (producExist) {
-        let document = await productColl.findOne({ productId });
+        let product = await productColl.findOne({ productId });
 
-        return new Product(document);
+        return new Product(product);
       }
     } catch (error) {
       throw error;
@@ -78,7 +78,7 @@ export default class Product {
   static findByCategory = async(id) =>{
     try {  
       let productInCategory = await productColl.find({ categoryId: id }).toArray();
-      const products = productInCategory.map((document) => new Product(document));
+      const products = productInCategory.map((product) => new Product(product));
   
       return products;
       

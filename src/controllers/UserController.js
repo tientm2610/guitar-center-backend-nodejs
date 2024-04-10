@@ -44,7 +44,6 @@ export const createUser = async (req,res) =>{
 export const updateUser = async(req, res) =>{
   const loggedInUser = req.session.user;
 
-  const { username } = req.params;
   const { password,fullname, phone, address, gender, birth } = req.body;  
 
  // Kiểm tra xem các trường thông tin cập nhật có đầy đủ không
@@ -68,7 +67,7 @@ if (loggedInUser.username !== req.params.username) {
   const updatedUser = await User.updateUserInfor(userNewData);
 
   // Cập nhật thông tin người dùng trong session
-  req.session.user = updatedUser;
+  req.session.user = updatedUser.username;
 
   res.json(updatedUser);
 } catch (error) {

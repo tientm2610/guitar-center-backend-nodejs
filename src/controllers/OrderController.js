@@ -12,6 +12,10 @@ export const getAllOrder = async (req, res) => {
 
 export const getOrderByUsername = async (req, res) =>{
     const username = req.session.user;  
+    console.log(username)
+    if (!username) {
+      return res.status(401).json({ error: "User not logged in" });
+    }
     try {
         const orders = await Order.getOrderByUsername(username);
         res.json(orders)
@@ -20,13 +24,18 @@ export const getOrderByUsername = async (req, res) =>{
     }
 }
 
-// export const getOrderDetailsByOrderId = async (req, res) =>{
-//     try {
-//         const orderDetails = await OrderDetails.getOrderDetailsByOrderId()
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+export const getOrderDetailsByOrderId = async (req, res) =>{
+    const username = req.session.user;  
+
+    try {
+      const orders = await getOrderByUsername(username);
+       const orderId = orders.orderId; 
+        const orderDetails = await OrderDetails.getOrderDetailsByOrderId(orderId)
+        res.json(orderDetails);
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const insertOrder = async (req, res) => {
     const { order, orderDetails } = req.body;

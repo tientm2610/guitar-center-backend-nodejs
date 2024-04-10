@@ -12,12 +12,11 @@ export default class OrderDetails {
 
   static getOrderDetailsByOrderId = async (orderId) => {
     try {
-      const orderDetailsExist = await orderDetailsColl.findOne({
-        orderId: orderId,
-      });
+      const orderDetailsExist = await orderDetailsColl.find({orderId: orderId,}).toArray();
 
       if (orderDetailsExist) {
-        return new OrderDetails(orderDetailsExist);
+        const orderDetails = orderDetailsExist.map((orderDetail) => new OrderDetails(orderDetail))
+        return orderDetails;
       }
     } catch (error) {
       throw error;
@@ -25,13 +24,6 @@ export default class OrderDetails {
   };
 
   static insertOrderDetails = async (orderDetails) => {
-    // try {
-    //   await orderDetailsColl.insertOne(orderDetailsData);
-    //   const orderDetais = new OrderDetails(orderDetailsData);
-    //   return orderDetais;
-    // } catch (error) {
-    //   throw error;
-    // }
     try {
       await orderDetailsColl.insertMany(orderDetails);
       const orderDetais = new OrderDetails(orderDetails);

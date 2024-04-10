@@ -10,8 +10,8 @@ export default class Category {
 
   static getAllCategory = async () => {
     try {
-      const documents = await categoryColl.find().toArray();
-      const categories = documents.map((document) => new Category(document));
+      const allCategories = await categoryColl.find().toArray();
+      const categories = allCategories.map((category) => new Category(category));
       return categories;
     } catch (error) {
       throw error;

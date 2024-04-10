@@ -16,8 +16,8 @@ export default class Order{
 
     static getAllOrders = async () =>{
         try {
-            const documents = await orderColl.find().toArray();
-            const orders = documents.map((document)=> new Order(document));
+            const allOrders = await orderColl.find().toArray();
+            const orders = allOrders.map((order)=> new Order(order));
             return orders;
         } catch (error) {
           throw error;  
@@ -26,9 +26,11 @@ export default class Order{
 
     static getOrderByUsername = async (username) =>{
         try {
-            const orderExist = await orderColl.findOne({username});
+            const orderExist = await orderColl.find({username}).toArray();
+
             if (orderExist) {
-                return new Order(orderExist);
+                const orders = orderExist.map((order)=> new Order(order));
+                return orders;
             }
         } catch (error) {
             throw error;

@@ -1,22 +1,19 @@
 import db from "./src/ConnectToDB.js";
     import OrderDetails from "./src/entities/OrderDetails.js";
     import Product from "./src/entities/Product.js";
-    
-    
+    import Order from "./src/entities/Order.js";
+    const orderDetailsColl = db.collection(`order-detail`);
     const orderColl = db.collection("order");
-   function insertOrderDetails(orderDetailsData) {
-        orderDetailsData.forEach((detail) => {
-          const { orderDetailId, price, unit, productId } = detail;
-          const orderDetail = new OrderDetails({ orderDetailId, price, unit, orderId: this.orderId, productId });
-    
-          // Thêm sản phẩm vào chi tiết đơn hàng
-          const product = new Product(detail.product);
-          orderDetail.addProduct(product, unit);
-    
-          // Thêm chi tiết đơn hàng vào đơn hàng
-          this.orderDetails.push(orderDetail);
-        });
-      }
+    const orderId = `1042024211019`;
+    // const orderDetailsExist = await orderDetailsColl.find({orderId: orderId,}).toArray();
+
+    //   if (orderDetailsExist) {
+    //     console.log(orderDetailsExist) ;
+    //   }
+  let username = `user2`
+    const orderExist = await orderColl.find({username}).toArray();
+      const orders = orderExist.map((document)=> new Order(document));
+      console.log(orders);
 
 const main = async () => {
   

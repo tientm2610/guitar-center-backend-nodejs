@@ -6,7 +6,7 @@ const orderRouter = express.Router();
 //danh sach product
 orderRouter.post("/add", orderController.insertOrder);
 
-//req phai nhu thế này 
+//req gui di phải đugns định dạng này 
 // {
 //     "order":{
 //         "address":"21 Hóc Môn",
@@ -28,17 +28,7 @@ orderRouter.post("/add", orderController.insertOrder);
 
 orderRouter.get(`/my-orders`, orderController.getOrderByUsername)
 
-orderRouter.get(`/my-order-details`, orderRouter)
-// //lay san pham bang id
-// productRouter.get(`/:id`, productController.getProductById);
+orderRouter.get(`/my-order-details`, orderController.getOrderDetailsByOrderId)
 
-// // them san pham
-// productRouter.post(`/add`, productController.insertProduct);
-
-// //sua san pham
-// productRouter.put(`/:id`, productController.updateProduct);
-
-// //delete san pham
-// productRouter.delete(`/:id`,productController.deleteProduct);
 
 export default orderRouter;

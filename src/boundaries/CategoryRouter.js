@@ -16,7 +16,7 @@ categoryRouter.put(`/:id`, categoryController.updateCategory);
 categoryRouter.delete(`/:id`, categoryController.deleteCategory);
 
 //lay product trong category
-categoryRouter.get(`/:id/products`, categoryController.getProductByCategoryId);
+categoryRouter.get(`/:id`, categoryController.getProductByCategoryId);
 
 
 export default categoryRouter;
