@@ -3,10 +3,14 @@ import * as orderController from "../controllers/OrderController.js"
 
 const orderRouter = express.Router();
 
-//danh sach product
+// admin xem danh sach tat ca đơn hàng
+orderRouter.get(`/`, orderController.getAllOrders)
+
+// người dùng đặt hàng
 orderRouter.post("/add", orderController.insertOrder);
 
-//req gui di phải đugns định dạng này 
+
+//req gui di phải đúng định dạng này 
 // {
 //     "order":{
 //         "address":"21 Hóc Môn",
@@ -26,9 +30,13 @@ orderRouter.post("/add", orderController.insertOrder);
 //     ]
 // }
 
+//người dùng xem danh sách đơn hàng của mình
 orderRouter.get(`/my-orders`, orderController.getOrderByUsername)
 
-orderRouter.get(`/my-order-details`, orderController.getOrderDetailsByOrderId)
+//người dùng xem chi tiết đơn hàng
+orderRouter.get(`/my-orders/:orderId`, orderController.getOrderDetailsByOrderId)
 
+//admin cập nhật trạng thái đơn hàng
+orderRouter.put(`/:orderId`, orderController.updateOrderStatus);
 
 export default orderRouter;

@@ -1,4 +1,5 @@
 import db from "../ConnectToDB.js";
+import Order from "./Order.js";
 
 const orderDetailsColl = db.collection("order-detail");
 
@@ -12,12 +13,9 @@ export default class OrderDetails {
 
   static getOrderDetailsByOrderId = async (orderId) => {
     try {
-      const orderDetailsExist = await orderDetailsColl.find({orderId: orderId,}).toArray();
-
-      if (orderDetailsExist) {
-        const orderDetails = orderDetailsExist.map((orderDetail) => new OrderDetails(orderDetail))
-        return orderDetails;
-      }
+      const orderDetailDocuments = await orderDetailsColl.find({orderId}).toArray();
+      const orderDetails = orderDetailDocuments.map((orderdetail) =>  new OrderDetails(orderdetail));
+      return orderDetails;
     } catch (error) {
       throw error;
     }
@@ -40,4 +38,6 @@ export default class OrderDetails {
       return 0;
     }
   }
+
+
 }

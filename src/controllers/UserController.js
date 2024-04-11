@@ -10,8 +10,11 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getUserByUserName = async(req, res) =>{
-    const {username} = req.params;
-    
+    const username =   req.session.user;
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+if (!username) {
+  return res.status(401).json({ error: "User not logged in" });
+}
     const user = await User.getUserByUsername(username)
     if (!user) {
       res.status(404).json({ error: `Username ${username} does not exist` });
@@ -42,7 +45,8 @@ export const createUser = async (req,res) =>{
 }
 
 export const updateUser = async(req, res) =>{
-  const loggedInUser = req.session.user;
+  const username =   req.session.user;
+
 
   const { password,fullname, phone, address, gender, birth } = req.body;  
 
@@ -52,15 +56,11 @@ export const updateUser = async(req, res) =>{
 }
 
 // Kiểm tra xem người dùng đã đăng nhập chưa
-if (!loggedInUser) {
+if (!username) {
   return res.status(401).json({ error: "User not logged in" });
 }
 
-// Kiểm tra xem người dùng đang cố gắng cập nhật thông tin của người dùng khác
-if (loggedInUser.username !== req.params.username) {
-  return res.status(403).json({ error: "Cannot update information for another user" });
-}
-  const userNewData = {   username: loggedInUser.username, password, fullname, phone, address, gender, birth, role :`U` } ;
+  const userNewData = {   username, password, fullname, phone, address, gender, birth, role :`U` } ;
 
   try {
   // Gọi hàm updateUserInfor với thông tin người dùng mới

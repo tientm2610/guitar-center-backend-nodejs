@@ -3,19 +3,19 @@ import * as productController from "../controllers/ProductController.js";
 
 const productRouter = express.Router();
 
-//danh sach product
+// người dùng xem danh sach product
 productRouter.get("/", productController.getAllProducts);
 
-//lay san pham bang id
+//người dùng xem chi tiết sản phẩm
 productRouter.get(`/:id`, productController.getProductById);
 
-// them san pham
+// admin thêm mới san pham
 productRouter.post(`/add`, productController.insertProduct);
 
-//sua san pham
+// admin sửa thông tin san pham
 productRouter.put(`/:id`, productController.updateProduct);
 
-//delete san pham
+// admin xóa  san pham
 productRouter.delete(`/:id`,productController.deleteProduct);
 
 export default productRouter;

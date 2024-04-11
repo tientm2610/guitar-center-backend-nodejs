@@ -7,20 +7,20 @@ const userRouter = express.Router();
 //get all
 userRouter.get("/", userController.getAllUsers);
 
-//dang ky
+//người dùng đăng ký tài khoản
 userRouter.post(`/register`, userController.createUser);
 
-//dang nhap
+// người dùng đăng nhập
 userRouter.post(`/`, userController.loginUser);
 
-//dang xuat
+// người dùng đăng xuất
 userRouter.get(`/logout`, userController.logoutUser);
 
-//lay thong tin nguoi dung
-userRouter.get(`/:username`,  userController.getUserByUserName);
+// sau khi đăng nhập sẽ hiện thông tin người dùng
+userRouter.get(`/me`,  userController.getUserByUserName);
 
-//update
-userRouter.put(`/:username`, userController.updateUser);
+//người dùng chỉnh sửa thông tin hoặc thay đổi mật khẩu
+userRouter.put(`/update-infor`, userController.updateUser);
 
 
 

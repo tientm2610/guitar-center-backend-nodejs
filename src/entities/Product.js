@@ -28,9 +28,8 @@ export default class Product {
     try {
       const producExist = await productColl.findOne({ productId });
       if (producExist) {
-        let product = await productColl.findOne({ productId });
-
-        return new Product(product);
+        
+        return new Product(producExist);
       }
     } catch (error) {
       throw error;
@@ -54,7 +53,6 @@ export default class Product {
 
       // Tạo một object chứa các trường cần cập nhật
       let newproduct = new Product(productNewData);
-      console.log(newproduct);
       // Sử dụng $set để cập nhật các trường chỉ định
       const productUpdate = await productColl.updateOne({ productId: productId }, { $set: newproduct });
 

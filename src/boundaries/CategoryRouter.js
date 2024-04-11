@@ -3,19 +3,19 @@ import * as categoryController from "../controllers/CategoryController.js";
 
 const categoryRouter = express.Router();
 
-// get all
+// người dùng xem danh sách category
 categoryRouter.get(`/`, categoryController.getAllCategory);
 
-//them category
+// admin thêm mới category
 categoryRouter.post(`/add`, categoryController.insertCategory);
 
-//sua category
+//admin update category
 categoryRouter.put(`/:id`, categoryController.updateCategory);
 
-//xoa category
+//admin xóa category
 categoryRouter.delete(`/:id`, categoryController.deleteCategory);
 
-//lay product trong category
+//người dùng xem product trong category
 categoryRouter.get(`/:id`, categoryController.getProductByCategoryId);
 
 

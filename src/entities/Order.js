@@ -37,6 +37,17 @@ export default class Order{
         }
     }
 
+    static getOrderById = async (orderId) => {
+        try {
+          const orderExist = await orderColl.findOne({ orderId });
+          if (orderExist) {    
+            return new Order(orderExist);
+          }
+        } catch (error) {
+          throw error;
+        }
+      };
+
     static insertOrder = async (orderData) =>{
         try {
             await orderColl.insertOne(orderData);
@@ -64,5 +75,6 @@ export default class Order{
             throw error;
         }
     }
+
 
 };

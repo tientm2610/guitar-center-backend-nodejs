@@ -1,7 +1,7 @@
 import Order from "../entities/Order.js";
 import OrderDetails from "../entities/OrderDetails.js";
 
-export const getAllOrder = async (req, res) => {
+export const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.getAllOrders();
         res.json(orders);      
@@ -25,11 +25,16 @@ export const getOrderByUsername = async (req, res) =>{
 }
 
 export const getOrderDetailsByOrderId = async (req, res) =>{
-    const username = req.session.user;  
+    const username = req.session.user; 
+    const {orderId} = req.params
 
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    if (!username) {
+    return res.status(401).json({ error: "User not logged in" });
+    }
+    
     try {
-      const orders = await getOrderByUsername(username);
-       const orderId = orders.orderId; 
+      
         const orderDetails = await OrderDetails.getOrderDetailsByOrderId(orderId)
         res.json(orderDetails);
     } catch (error) {
@@ -96,4 +101,27 @@ export const insertOrder = async (req, res) => {
         throw error;
     }
 };
+
+export const updateOrderStatus = async (req, res) => {
+    try {
+        const {orderId} = req.params;
+        const {status} = req.body;
+        const orderExist = await Order.getOrderById(orderId);
+        if (!req.body || !status ) {
+            return res
+              .status(400)
+              .json({ error: "Request body must fill status information" });
+          }
+        if(!orderExist){
+            return res.status(404).json({ error: `Order ${orderId} does not exists` })
+        }
+      
+        const {address, phone, totalprice, username} = orderExist;
+        const orderNewData = {orderId, address, phone, status, totalprice, username };
+        await Order.updateStatusOrder(orderNewData);
+        res.json({update: true})
+    } catch (error) {
+        throw error;
+    }
+}
 
