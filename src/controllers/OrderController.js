@@ -36,7 +36,13 @@ export const getOrderDetailsByOrderId = async (req, res) =>{
     try {
       
         const orderDetails = await OrderDetails.getOrderDetailsByOrderId(orderId)
-        res.json(orderDetails);
+        if(orderDetails.length > 0){
+           return res.json(orderDetails);
+        }else{
+            return res.status(401).json({ error: "Orderdetail does not exist" });
+        }
+
+       
     } catch (error) {
         throw error;
     }
@@ -59,8 +65,7 @@ export const insertOrder = async (req, res) => {
     }
 
     // phân rã từ order trong body
-    const address = order.address;
-    const phone = order.phone;
+    const {address, phone} = order;
 
     // ngày tạo đơn hàng
     const orderDate = new Date();
@@ -68,30 +73,31 @@ export const insertOrder = async (req, res) => {
     const orderId = `${orderDate.getDate()}${orderDate.getMonth() + 1}${orderDate.getFullYear()}${orderDate.getHours()}${orderDate.getMinutes()}${orderDate.getSeconds()}`;
 
     // lặp qua mảng  orderDetails để thêm mã đơn hàng cho mỗi orderDetail
-    const parsedOrderDetails = orderDetails.map((detail) => {
+    const orderDetailHaveOrderId = orderDetails.map((detail) => {
         const { price, unit, productId } = detail;
         return { price, unit, orderId, productId };
     });
     // cho trạng thái đơn hàng mới đặt là đang xử lý
     const status = `Đang xử lý`;
 
-    const totalPrice = parsedOrderDetails.reduce((total, detail) => {
-        // Lấy giá và số lượng từ mỗi chi tiết sản phẩm
+    let totalPrice = 0;
+
+    for (const detail of orderDetailHaveOrderId) {
         const price = detail.price;
         const unit = detail.unit;
         
         // Tính tổng giá tiền của sản phẩm hiện tại và cộng vào tổng
         const productTotalPrice = price * unit;
-        return total + productTotalPrice;
-    }, 0);
-    // đưa các giá trị vừa hoàn thành vào orderData
+        totalPrice += productTotalPrice;
+    }
+
     const orderData = { orderId, address, orderDate, phone, status, totalPrice, username };
 
     try {
         await Order.insertOrder(orderData);
 
         // Chuyển parsedOrderDetails thành một mảng các tài liệu để chèn vào cơ sở dữ liệu
-        const orderDetailsToInsert = parsedOrderDetails.map(detail => new OrderDetails(detail));
+        const orderDetailsToInsert = orderDetailHaveOrderId.map(detail => new OrderDetails(detail));
 
         // Chèn các orderDetails vào cơ sở dữ liệu
         await OrderDetails.insertOrderDetails(orderDetailsToInsert);

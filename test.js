@@ -1,21 +1,27 @@
-import db from "./src/ConnectToDB.js";
-    import OrderDetails from "./src/entities/OrderDetails.js";
-    import Product from "./src/entities/Product.js";
-    import Order from "./src/entities/Order.js";
-    const orderDetailsColl = db.collection(`order-detail`);
-    const orderColl = db.collection("order");
-    const orderId = `1042024211019`;
-    // const orderDetailsExist = await orderDetailsColl.find({orderId: orderId,}).toArray();
+import express from "express";
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-    //   if (orderDetailsExist) {
-    //     console.log(orderDetailsExist) ;
-    //   }
-  let username = `user2`
-    const orderExist = await orderColl.find({username}).toArray();
-      const orders = orderExist.map((document)=> new Order(document));
-      console.log(orders);
 
-const main = async () => {
-  
-};
-main();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const app = express();
+
+const PORT = 3000;
+
+app.get('/image', (req, res) => {
+    // Đường dẫn tới file hình ảnh
+    const imagePath =  `${__dirname}/img/piano.jpg` // Thay thế 'path/to/your/image.jpg' với đường dẫn thực tế
+    // Gửi file hình ảnh như là response
+    console.log(__dirname);
+    res.json(imagePath)
+    // res.sendFile(imagePath);
+});
+
+app.listen(PORT, () => {
+
+
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+

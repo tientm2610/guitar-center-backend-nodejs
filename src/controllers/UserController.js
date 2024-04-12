@@ -1,6 +1,7 @@
 import User from "../entities/User.js";
 
 export const getAllUsers = async (req, res) => {
+
   try {
     const users = await User.getAllUsers();
     res.json(users);
@@ -47,6 +48,10 @@ export const createUser = async (req,res) =>{
 export const updateUser = async(req, res) =>{
   const username =   req.session.user;
 
+  // Kiểm tra xem người dùng đã đăng nhập chưa
+if (!username) {
+  return res.status(401).json({ error: "User not logged in" });
+}
 
   const { password,fullname, phone, address, gender, birth } = req.body;  
 
@@ -55,19 +60,11 @@ export const updateUser = async(req, res) =>{
   return res.status(400).json({ error: "Request body must fill in all information" });
 }
 
-// Kiểm tra xem người dùng đã đăng nhập chưa
-if (!username) {
-  return res.status(401).json({ error: "User not logged in" });
-}
-
   const userNewData = {   username, password, fullname, phone, address, gender, birth, role :`U` } ;
 
   try {
   // Gọi hàm updateUserInfor với thông tin người dùng mới
   const updatedUser = await User.updateUserInfor(userNewData);
-
-  // Cập nhật thông tin người dùng trong session
-  req.session.user = updatedUser.username;
 
   res.json(updatedUser);
 } catch (error) {
@@ -107,7 +104,4 @@ export const logoutUser = async (req, res) => {
       res.clearCookie('connect.sid'); // Xóa session cookie
       res.json({ message: 'Logout successful' });
   });
-}
-
-
-
+};

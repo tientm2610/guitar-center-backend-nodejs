@@ -69,9 +69,48 @@ export const deleteProduct = async(req, res) =>{
     if (!productExist) {
       return res.status(404).json({ error: `Product ${id} does not exists` });
     } 
+
+    const productsInOrder = await Product.findByOrderId(id);
+    if(productsInOrder.length > 0){
+      return res.status(400).json({ error: `Existing products in an order.` });
+    }
     await Product.deleteProduct(id);
     res.json({delete: true});
   } catch (error) {
     throw error;
   }
 }; 
+
+export const getProductByCategoryId = async(req, res) =>{
+  try {
+    const {id} = req.params;
+    const productsInCategory = await Product.findByCategory(id);
+    if(!productsInCategory){
+      res.status(404).json({ error: `Product in category ${id} does not exist` });
+    }
+    res.json(productsInCategory);
+  } catch (error) {
+    throw error;
+  }
+}
+
+import { __dirname } from "../../index.js";
+export const getImage = async (req, res) => {
+    try {
+   
+      const {id} = req.params;
+      const productExist = await Product.getProductById(id);
+      if (!productExist) {
+        return res.status(404).json({ error: `Product ${id} does not exists` });
+      } 
+      const imageProduct = await Product.getProductImage(id);  
+
+      const imagePath =  `${__dirname}/img/${imageProduct}`
+
+      res.sendFile(imagePath);
+
+    } catch (error) {
+      throw error;
+    }
+};
+

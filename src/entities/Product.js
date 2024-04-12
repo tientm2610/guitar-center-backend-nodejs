@@ -1,7 +1,7 @@
-import db from "../ConnectToDB.js";
+import db from "./ConnectToDB.js";
 
 const productColl = db.collection("product");
-
+const orderDetailsColl = db.collection("order-detail");
 export default class Product {
   constructor({ productId, productName, unit, price, image, categoryId,description}) {
     this.productId = productId;
@@ -28,7 +28,7 @@ export default class Product {
     try {
       const producExist = await productColl.findOne({ productId });
       if (producExist) {
-        
+
         return new Product(producExist);
       }
     } catch (error) {
@@ -82,6 +82,30 @@ export default class Product {
       
     } catch (error) {
      throw error 
+    }
+  }
+
+  static findByOrderId = async (id) =>{
+    try {
+      let orderDetailHaveProductId = await orderDetailsColl.find({productId: id}).toArray();
+    
+      return orderDetailHaveProductId;
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static getProductImage = async(id) =>{
+    try {
+      let product = await productColl.findOne({productId:id});
+
+      let imageProduct = product.image;
+      console.log(imageProduct);
+      return imageProduct;
+      
+    } catch (error) {
+      throw error;
     }
   }
 

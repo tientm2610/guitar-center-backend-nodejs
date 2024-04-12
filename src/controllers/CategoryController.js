@@ -56,18 +56,7 @@ export const updateCategory = async (req, res) =>{
     }
   };
 
-  export const getProductByCategoryId = async(req, res) =>{
-    try {
-      const {id} = req.params;
-      const productsInCategory = await Product.findByCategory(id);
-      if(!productsInCategory){
-        res.status(404).json({ error: `Product in category ${id} does not exist` });
-      }
-      res.json(productsInCategory);
-    } catch (error) {
-      throw error;
-    }
-  }
+
   
 
   export const deleteCategory = async(req, res) =>{

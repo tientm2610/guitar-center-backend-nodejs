@@ -1,5 +1,4 @@
-import db from "../ConnectToDB.js";
-import Order from "./Order.js";
+import db from "./ConnectToDB.js";
 
 const orderDetailsColl = db.collection("order-detail");
 
@@ -30,14 +29,5 @@ export default class OrderDetails {
       throw error;
   }
   };
-
-   calculatorTotalPrice() {
-    if (this.unit && this.price) {
-      return this.unit * this.price;
-    } else {
-      return 0;
-    }
-  }
-
 
 }

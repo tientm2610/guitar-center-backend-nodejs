@@ -1,4 +1,4 @@
-import db from "../ConnectToDB.js";
+import db from "./ConnectToDB.js";
 
 const orderColl = db.collection("order");
 
@@ -11,7 +11,7 @@ export default class Order{
         this.status = status;
         this.totalPrice = totalPrice;
         this.username = username;
-        this.orderDetails = []; 
+        
       };
 
     static getAllOrders = async () =>{

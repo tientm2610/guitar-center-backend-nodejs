@@ -1,6 +1,10 @@
 import express from "express";
 import api from "./src/router.js";
 import session from "express-session";
+import { fileURLToPath } from 'url';
+import { dirname} from 'path';
+import path from "path";
+
 // const dotenv = require('dotenv');
 // dotenv.config();
 const app = express();
@@ -13,6 +17,8 @@ app.use(session({
 }));
 // Sử dụng tuyến đường API của sản phẩm
 app.use('/api', api);
+// lay den thu muc hien tai
+ export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 const PORT = process.env.PORT || 3333;

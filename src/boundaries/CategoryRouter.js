@@ -15,8 +15,7 @@ categoryRouter.put(`/:id`, categoryController.updateCategory);
 //admin xóa category
 categoryRouter.delete(`/:id`, categoryController.deleteCategory);
 
-//người dùng xem product trong category
-categoryRouter.get(`/:id`, categoryController.getProductByCategoryId);
+
 
 
 export default categoryRouter;
