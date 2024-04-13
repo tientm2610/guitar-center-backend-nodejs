@@ -77,6 +77,7 @@ if (!username) {
 export const loginUser = async (req,res) =>{
   const { username, password } = req.body;
   if (!username || !password) {
+
     return res.status(400).json({ error: "Username and password are required" });
   }
 
@@ -90,6 +91,7 @@ export const loginUser = async (req,res) =>{
   if (!isValidPassword) {
     return res.status(401).json({ error: "Invalid username or password" });
   }
+  console.log(`Login succes usename : ${user.username}`)
   req.session.user = user.username;
 
   res.json(user);
