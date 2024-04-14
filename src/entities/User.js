@@ -75,7 +75,8 @@ export default class User {
   }
 
  static updateUserInfor = async(user) => {
-     await userColl.replaceOne({ username: user.username }, user);
+     
+     await userColl.updateOne({ username: user.username }, {$set: user});
     const userUpdate = await this.getUserByUsername(user.username);
  
     return new User(userUpdate);
