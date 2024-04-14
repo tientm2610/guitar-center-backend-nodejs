@@ -70,7 +70,7 @@ if (!username) {
   const { password,fullname, phone, address, gender, birth } = req.body;  
 
  // Kiểm tra xem các trường thông tin cập nhật có đầy đủ không
- if (!password || !fullname || !phone || !address || !gender || !birth) {
+ if (!password || !fullname || !phone || !address  || !birth) {
   return res.status(400).json({ error: "Request body must fill in all information" });
 }
 
@@ -99,7 +99,7 @@ if (!username) {
   const { password,fullname, phone, address, gender, birth } = req.body;  
 
  // Kiểm tra xem các trường thông tin cập nhật có đầy đủ không
- if (!password || !fullname || !phone || !address || !gender || !birth) {
+ if (!password || !fullname || !phone || !address  || !birth) {
   return res.status(400).json({ error: "Request body must fill in all information" });
 }
 
