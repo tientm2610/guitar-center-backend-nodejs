@@ -10,7 +10,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-export const getUserByUserName = async(req, res) =>{
+export const getUserByUserNameWithSession = async(req, res) =>{
     const username =   req.session.user;
     // Kiểm tra xem người dùng đã đăng nhập chưa
 if (!username) {
@@ -23,6 +23,19 @@ if (!username) {
     res.json(user);
 }
 
+
+export const getUserByUserName = async(req, res) =>{
+  const {username} =   req.params;
+  // Kiểm tra xem người dùng đã đăng nhập chưa
+if (!username) {
+return res.status(401).json({ error: "User not logged in" });
+}
+  const user = await User.getUserByUsername(username)
+  if (!user) {
+    res.status(404).json({ error: `Username ${username} does not exist` });
+  } 
+  res.json(user);
+}
 export const createUser = async (req,res) =>{
   const {  username, password, fullname, phone, address, gender, birth } = req.body;
 
@@ -45,7 +58,8 @@ export const createUser = async (req,res) =>{
   res.json({success: true})
 }
 
-export const updateUser = async(req, res) =>{
+//dùng session
+export const updateUserWithSession = async(req, res) =>{
   const username =   req.session.user;
 
   // Kiểm tra xem người dùng đã đăng nhập chưa
@@ -72,6 +86,36 @@ if (!username) {
 }
 
 }
+
+//không dùng session
+export const updateUser = async(req, res) =>{
+  const {username} =   req.params;
+
+  // Kiểm tra xem người dùng đã đăng nhập chưa
+if (!username) {
+  return res.status(401).json({ error: "User not logged in" });
+}
+
+  const { password,fullname, phone, address, gender, birth } = req.body;  
+
+ // Kiểm tra xem các trường thông tin cập nhật có đầy đủ không
+ if (!password || !fullname || !phone || !address || !gender || !birth) {
+  return res.status(400).json({ error: "Request body must fill in all information" });
+}
+
+  const userNewData = {   username, password, fullname, phone, address, gender, birth, role :`U` } ;
+
+  try {
+  // Gọi hàm updateUserInfor với thông tin người dùng mới
+  const updatedUser = await User.updateUserInfor(userNewData);
+
+  res.json(updatedUser);
+} catch (error) {
+    res.status(500).json({ error: "Failed to update user information" });
+}
+
+}
+
 
 
 export const loginUser = async (req,res) =>{

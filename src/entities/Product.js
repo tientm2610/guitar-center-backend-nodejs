@@ -101,7 +101,6 @@ export default class Product {
       let product = await productColl.findOne({productId:id});
 
       let imageProduct = product.image;
-      console.log(imageProduct);
       return imageProduct;
       
     } catch (error) {

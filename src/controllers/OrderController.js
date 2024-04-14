@@ -9,8 +9,8 @@ export const getAllOrders = async (req, res) => {
         throw error;
     };
 };
-
-export const getOrderByUsername = async (req, res) =>{
+//dùng session
+export const getOrderByUsernameWithSession = async (req, res) =>{
     const username = req.session.user;  
     console.log(username)
     if (!username) {
@@ -23,8 +23,22 @@ export const getOrderByUsername = async (req, res) =>{
         throw error;
     }
 }
+//không dùng session
+export const getOrderByUsername = async (req, res) =>{
+    const {username} = req.params;  
+    console.log(username)
+    if (!username) {
+      return res.status(401).json({ error: "User not logged in" });
+    }
+    try {
+        const orders = await Order.getOrderByUsername(username);
+        res.json(orders)
+    } catch (error) {
+        throw error;
+    }
+}
 
-export const getOrderDetailsByOrderId = async (req, res) =>{
+export const getOrderDetailsByOrderIdWithSession = async (req, res) =>{
     const username = req.session.user; 
     const {orderId} = req.params
 
@@ -48,11 +62,96 @@ export const getOrderDetailsByOrderId = async (req, res) =>{
     }
 }
 
-export const insertOrder = async (req, res) => {
+export const getOrderDetailsByOrderId = async (req, res) =>{
+    const {username} = req.params;
+    const {orderId} = req.params
+
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    if (!username) {
+    return res.status(401).json({ error: "User not logged in" });
+    }
+    
+    try {
+      
+        const orderDetails = await OrderDetails.getOrderDetailsByOrderId(orderId)
+        if(orderDetails.length > 0){
+           return res.json(orderDetails);
+        }else{
+            return res.status(401).json({ error: "Orderdetail does not exist" });
+        }
+
+       
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+export const insertOrderWithSession = async (req, res) => {
     const { order, orderDetails } = req.body;
 
     // lấy username đang đăng nhập được lưu trong session
     const username = req.session.user; 
+
+    // orderDetails phải là một mảng
+    if (!orderDetails || !Array.isArray(orderDetails)) {
+        return res.status(400).json({ error: "orderDetails must be an array" });
+    }
+    
+    // kiểm tra login
+    if (!username) {
+        return res.status(400).json({ error: "User not logged in" });
+    }
+
+    // phân rã từ order trong body
+    const {address, phone} = order;
+
+    // ngày tạo đơn hàng
+    const orderDate = new Date();
+    // mã đơn hàng bằng chuỗi số ngày tháng năm giờ phút giây
+    const orderId = `${orderDate.getDate()}${orderDate.getMonth() + 1}${orderDate.getFullYear()}${orderDate.getHours()}${orderDate.getMinutes()}${orderDate.getSeconds()}`;
+
+    // lặp qua mảng  orderDetails để thêm mã đơn hàng cho mỗi orderDetail
+    const orderDetailHaveOrderId = orderDetails.map((detail) => {
+        const { price, unit, productId } = detail;
+        return { price, unit, orderId, productId };
+    });
+    // cho trạng thái đơn hàng mới đặt là đang xử lý
+    const status = `Đang xử lý`;
+
+    let totalPrice = 0;
+
+    for (const detail of orderDetailHaveOrderId) {
+        const price = detail.price;
+        const unit = detail.unit;
+        
+        // Tính tổng giá tiền của sản phẩm hiện tại và cộng vào tổng
+        const productTotalPrice = price * unit;
+        totalPrice += productTotalPrice;
+    }
+
+    const orderData = { orderId, address, orderDate, phone, status, totalPrice, username };
+
+    try {
+        await Order.insertOrder(orderData);
+
+        // Chuyển parsedOrderDetails thành một mảng các tài liệu để chèn vào cơ sở dữ liệu
+        const orderDetailsToInsert = orderDetailHaveOrderId.map(detail => new OrderDetails(detail));
+
+        // Chèn các orderDetails vào cơ sở dữ liệu
+        await OrderDetails.insertOrderDetails(orderDetailsToInsert);
+
+        res.json({ insertOrder: true });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const insertOrder = async (req, res) => {
+    const { order, orderDetails } = req.body;
+
+    // lấy username đang đăng nhập được lưu trong session
+    const {username} = req.params; 
 
     // orderDetails phải là một mảng
     if (!orderDetails || !Array.isArray(orderDetails)) {
