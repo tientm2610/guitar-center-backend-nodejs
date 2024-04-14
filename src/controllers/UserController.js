@@ -102,8 +102,9 @@ if (!username) {
  if (!password || !fullname || !phone || !address  || !birth) {
   return res.status(400).json({ error: "Request body must fill in all information" });
 }
-
-  const userNewData = {   username, password, fullname, phone, address, gender, birth, role :`U` } ;
+  const oldData = await User.getUserByUsername(username);
+   const oldgender = oldData.gender;
+  const userNewData = {   username, password, fullname, phone, address, gender: oldgender, birth, role :`U` } ;
 
   try {
   // Gọi hàm updateUserInfor với thông tin người dùng mới
