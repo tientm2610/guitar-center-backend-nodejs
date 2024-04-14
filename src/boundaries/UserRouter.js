@@ -21,7 +21,10 @@ userRouter.get(`/me`,  userController.getUserByUserNameWithSession);
 // sau khi đăng nhập sẽ hiện thông tin người dùng bằng params
 userRouter.get(`/:username`, userController.getUserByUserName)
 
+
 //người dùng chỉnh sửa thông tin hoặc thay đổi mật khẩu, có session
+userRouter.put(`/update-infor`, userController.updateUserWithSession);
+//người dùng chỉnh sửa thông tin hoặc thay đổi mật khẩu
 userRouter.put(`/:username/update-infor`, userController.updateUser);
 
 
