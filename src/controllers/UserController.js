@@ -14,6 +14,7 @@ export const getUserByUserNameWithSession = async(req, res) =>{
     const username =   req.session.user;
     // Kiểm tra xem người dùng đã đăng nhập chưa
 if (!username) {
+  console.log("User not logged in" );
   return res.status(401).json({ error: "User not logged in" });
 }
     const user = await User.getUserByUsername(username)
@@ -102,8 +103,11 @@ if (!username) {
  if (!password || !fullname || !phone || !address  || !birth) {
   return res.status(400).json({ error: "Request body must fill in all information" });
 }
+//laasy thoong tin truoc khi cap nhat
   const oldData = await User.getUserByUsername(username);
+  //lay gioi tinh
    const oldgender = oldData.gender;
+   // không cập nhật giới tính và role của user thì bắt buộc là U
   const userNewData = {   username, password, fullname, phone, address, gender: oldgender, birth, role :`U` } ;
 
   try {

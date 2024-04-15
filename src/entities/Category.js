@@ -18,18 +18,18 @@ export default class Category {
     }
   };
 
-  // static getCategoryById = async (categoryId) => {
-  //   try {
-  //     const categoryExist = await categoryColl.findOne({ categoryId });
+  static getCategoryById = async (categoryId) => {
+    try {
+      const categoryExist = await categoryColl.findOne({ categoryId });
   
-  //     if (categoryExist) {
+      if (categoryExist) {
         
-  //       return new Category(categoryExist);
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
+        return new Category(categoryExist);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
 
   static insertCategory = async (categoryData) => {
     try {
