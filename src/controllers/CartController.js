@@ -3,12 +3,21 @@ let cart = {};
 
 export const addToCart = async (req, res) => {
   const productId = req.params.productId;
+  let quantity = req.query.quantity || 1; // Số lượng mặc định là 1 nếu không được chỉ định
 
-  // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+  // Chuyển đổi quantity từ string sang số nguyên
+  quantity = parseInt(quantity);
+
+  // Kiểm tra số lượng hợp lệ
+  if (isNaN(quantity) || quantity <= 0) {
+    return res.status(400).json({ error: "Số lượng không hợp lệ" });
+  }
+
+  // Thêm sản phẩm vào giỏ hàng
   if (!cart[productId]) {
-    cart[productId] = 1;
+    cart[productId] = quantity;
   } else {
-    cart[productId]++;
+    cart[productId] += quantity;
   }
 
   res.json(`Sản phẩm đã được thêm vào giỏ hàng`);
@@ -23,10 +32,8 @@ export const deleteCart = async (req, res) => {
 export const removeFromCart = async (req, res) => {
   const productId = req.params.productId;
 
-  if (cart[productId]) {
-    delete cart[productId];
-    res.json(`Sản phẩm đã được xóa khỏi giỏ hàng`);
-  } else {
-    res.json(`Sản phẩm không tồn tại trong giỏ hàng`);
-  }
+  // Xóa sản phẩm khỏi giỏ hàng
+  delete cart[productId];
+
+  res.json(`Sản phẩm đã được xóa khỏi giỏ hàng`);
 };
