@@ -1,4 +1,4 @@
-import CartApp from "./CartApp.js"
+import {CartApp} from "./CartApp.js"
 
 
 

@@ -3,16 +3,21 @@ import api from "./src/router.js";
 import session from "express-session";
 import { fileURLToPath } from 'url';
 import { dirname} from 'path';
-import path from "path";
-import { title } from "process";
 import { Product } from "./public/handler/Product.js";
-import CartApp from "./public/handler/CartApp.js";
+import {CartApp} from "./public/handler/CartApp.js";
 
 
 // const dotenv = require('dotenv');
 // dotenv.config();
 const app = express();
 
+
+app.use(session({
+    secret: 'abc', // Khóa bí mật để mã hóa session
+    resave: false, // Không lưu lại session nếu không có sự thay đổi
+    saveUninitialized: false, // Không tạo session cho người dùng chưa đăng nhập
+    
+}));
 
 app.set('view engine','ejs')
 app.set('views','./public/views')
@@ -55,11 +60,6 @@ app.get('/index',(req,res)=>{
     res.redirect('/')
 })
 
-app.get('/cart',async (req,res) =>{
-    const product = await CartApp.getAllCartProduct();
-    console.log(product)
-    res.render('cart', {product })
-})
 
 app.get('/login', (req,res) => {
     res.render('login')
@@ -76,27 +76,17 @@ app.get('/shop', async (req,res) => {
 app.get('/single-product',(req,res) => {
     res.render('single-product')
 })
-
-
-app.use(session({
-    secret: 'Minhtien1', // Khóa bí mật để mã hóa session
-    resave: false, // Không lưu lại session nếu không có sự thay đổi
-    saveUninitialized: false, // Không tạo session cho người dùng chưa đăng nhập
-    
-}));
-
-
-
+app.get('/cart',async (req,res) =>{
+    const product = await CartApp.getAllCartProduct();
+    console.log(product)
+    res.render('cart', {product })
+})
 
 
 // Sử dụng tuyến đường API của sản phẩm
 app.use('/api', api);
 // lay den thu muc hien tai
  export const __dirname = dirname(fileURLToPath(import.meta.url));
-
-
-
-
 
 
 const PORT = process.env.PORT || 3333;

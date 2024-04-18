@@ -1,6 +1,6 @@
 import { Product } from "./Product.js";
 import {ProductCart} from "./ProductCart.js";
-export default class CartApp{
+export class CartApp{
     
     constructor(){
 
@@ -13,11 +13,14 @@ export default class CartApp{
      _addToCart = async () =>{
         const quantity =this._quantity.value;
         const productId = this._singleProduct.getAttribute(`data-productId`);
+       
         await ProductCart.addToCart(productId,quantity)
             .then(message => {
+                
                 alert(message);
             })
             .catch(error => console.error(error))
+       
     }
 
     static getAllCartProduct = async () => {
@@ -25,12 +28,9 @@ export default class CartApp{
           // Lấy danh sách sản phẩm từ giỏ hàng
           let cartItems = await ProductCart.getAllFromCart();
       if(cartItems){
-        console.log(cartItems)
+        console.log(`cartItems: ${typeof(cartItems)}`)
       }
-          // Kiểm tra xem cartItems có phải là một mảng không
-          if (!Array.isArray(cartItems)) {
-            throw new Error("Dữ liệu trả về không hợp lệ: không phải là một mảng.");
-          }
+       
       
           // Khởi tạo mảng để lưu trữ thông tin sản phẩm
           let products = [];

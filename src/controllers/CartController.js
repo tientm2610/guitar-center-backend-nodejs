@@ -45,11 +45,11 @@ export const removeFromCart = async (req, res) => {
 export const getAllProductFromCart = async (req, res) => {
   // Kiểm tra xem session có tồn tại giỏ hàng hay không
   if (!req.session.cart) {
-    console.log(req.session.cart);
+    console.log(`session cart: ${req.session.cart}`);
     res.json([]);
     return;
   }
-
+  const cart = req.session.cart
   // Lấy tất cả các sản phẩm từ giỏ hàng
   const cartItems = Object.keys(req.session.cart).map(productId => {
     return {
