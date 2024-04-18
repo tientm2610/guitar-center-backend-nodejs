@@ -56,7 +56,8 @@ app.get('/index',(req,res)=>{
 })
 
 app.get('/cart',async (req,res) =>{
-    const product = await CartApp.getAllProduct();
+    const product = await CartApp.getAllCartProduct();
+    console.log(product)
     res.render('cart', {product })
 })
 

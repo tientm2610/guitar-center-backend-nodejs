@@ -1,5 +1,5 @@
 
-export default class Cart{
+export class ProductCart{
     static addToCart = async(productId,quantity) =>{
         const response = await fetch(`http://localhost:3333/api/cart/add/${productId}?quantity=${quantity}`);
         const message = await response.json()

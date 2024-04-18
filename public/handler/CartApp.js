@@ -1,5 +1,5 @@
 import { Product } from "./Product.js";
-import Cart from "./cart.js"
+import {ProductCart} from "./ProductCart.js";
 export default class CartApp{
     
     constructor(){
@@ -13,29 +13,33 @@ export default class CartApp{
      _addToCart = async () =>{
         const quantity =this._quantity.value;
         const productId = this._singleProduct.getAttribute(`data-productId`);
-        const {productName, productPrice, productImage} = await Product.getProductDetail(productId);
-       const cartProduct = new CartProduct(productId,productName,productPrice, productImage, quantity);
-        await Cart.addToCart(cartProduct)
+        await ProductCart.addToCart(productId,quantity)
             .then(message => {
                 alert(message);
             })
             .catch(error => console.error(error))
     }
 
-    static getAllProduct = async () => {
+    static getAllCartProduct = async () => {
         try {
           // Lấy danh sách sản phẩm từ giỏ hàng
-          const cartItems = {};
-           cartItems = await Cart.getAllFromCart();
-    
+          let cartItems = await ProductCart.getAllFromCart();
+      if(cartItems){
+        console.log(cartItems)
+      }
+          // Kiểm tra xem cartItems có phải là một mảng không
+          if (!Array.isArray(cartItems)) {
+            throw new Error("Dữ liệu trả về không hợp lệ: không phải là một mảng.");
+          }
+      
           // Khởi tạo mảng để lưu trữ thông tin sản phẩm
-          const products = [];
-    
+          let products = [];
+      
           // Lặp qua từng sản phẩm trong giỏ hàng
           for (const { productId, quantity } of cartItems) {
             // Lấy thông tin chi tiết của sản phẩm
             const productDetail = await Product.getProductDetail(productId);
-    
+      
             // Tạo đối tượng CartProduct từ dữ liệu của sản phẩm và số lượng trong giỏ hàng
             const cartProduct = new CartProduct({
               productId: productDetail.productId,
@@ -44,17 +48,20 @@ export default class CartApp{
               image: productDetail.image,
               quantity: quantity
             });
-    
+            console.log(products);
+      
             // Thêm sản phẩm vào mảng products
             products.push(cartProduct);
           }
-    
+      
           return products; // Trả về danh sách sản phẩm theo class CartProduct
         } catch (error) {
           console.error("Error:", error);
           throw error;
         }
       };
+      
+      
 };
 
 

@@ -1,24 +1,20 @@
 // Route để thêm sản phẩm vào giỏ hàng
 export const addToCart = async (req, res) => {
-  const { productId, productName, productPrice, productImage } = req.body;
-  const quantity = req.query.quantity || 1; // Trích xuất giá trị của quantity từ query string, nếu không có thì mặc định là 1
+  const {productId} = req.params;
+  let quantity = req.query.quantity || 1; // Trích xuất giá trị của quantity từ query string, nếu không có thì mặc định là 1
   
   // Kiểm tra xem session có tồn tại giỏ hàng hay chưa
   if (!req.session.cart) {
     req.session.cart = {}; // Nếu không tồn tại, tạo một giỏ hàng mới
   }
+  console.log( req.session.cart)
   
   // Thêm sản phẩm vào giỏ hàng trong session
   if (!req.session.cart[productId]) {
-    req.session.cart[productId] = { // Lưu thông tin sản phẩm dưới dạng một đối tượng
-      productName: productName,
-      productPrice: productPrice,
-      productImage: productImage,
-      quantity: quantity
-    };
+    req.session.cart[productId] = parseInt(quantity);
   } else {
-    // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
-    req.session.cart[productId].quantity += quantity;
+    quantity = parseInt(quantity);
+    req.session.cart[productId] += quantity;
   }
   
   res.json(`Sản phẩm đã được thêm vào giỏ hàng`);
@@ -49,7 +45,8 @@ export const removeFromCart = async (req, res) => {
 export const getAllProductFromCart = async (req, res) => {
   // Kiểm tra xem session có tồn tại giỏ hàng hay không
   if (!req.session.cart) {
-    res.json({ message: "Giỏ hàng trống" });
+    console.log(req.session.cart);
+    res.json([]);
     return;
   }
 
