@@ -20,13 +20,15 @@ export class Product{
         return products.map((product) => new Product(product));
     }
 
-     getProductDetail= async(productId) =>{
-        const {product} = await apiRequest(`GET`, `/products/${productId}`);
+    static getProductDetail= async(productId) =>{
+        const response = await fetch(`http://localhost:3333/api/products/${productId}`);
+        const product = await response.json();
         return new Product(product);
     }
 
-    getProductByCategory = async (categoryId) =>{
-        const {products} = await apiRequest(`GET`, `/products/category/${categoryId}`);
+    static getProductByCategory = async (categoryId) =>{
+        const response = await fetch(`http://localhost:3333/api/products/category/${categoryId}`);
+        const products = await response.json();
         return products.map((product) => new Product(product));
 
     }
