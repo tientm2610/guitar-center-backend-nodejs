@@ -4,7 +4,7 @@ import * as cartController from "../controllers/CartController.js";
 const cartRouter = express.Router();
 
 // người dùng xem thểm sản phẩm vào giỏ hàng
-cartRouter.post(`/add/:productId`, cartController.addToCart);
+cartRouter.get(`/add/:productId`, cartController.addToCart);
 
 //xóa toàn bộ giỏ hàng
 cartRouter.get(`/clear`, cartController.deleteCart);

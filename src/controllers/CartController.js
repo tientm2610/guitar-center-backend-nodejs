@@ -1,29 +1,32 @@
+// Khởi tạo biến toàn cục để lưu trữ giỏ hàng
+let cart = {};
+
 export const addToCart = async (req, res) => {
   const productId = req.params.productId;
-  //kie tra session  co ton tia khong
-  if (!req.session.cart) {
-    req.session.cart = {};
+
+  // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+  if (!cart[productId]) {
+    cart[productId] = 1;
+  } else {
+    cart[productId]++;
   }
 
-  //kiem tra sp da ton tai chua
-  if (!req.session.cart[productId]) {
-    req.session.cart[productId] = 1; // neu chua co them sp moi vao gio hang
-  } else {
-    req.session.cart[productId]++;
-  }
   res.json(`Sản phẩm đã được thêm vào giỏ hàng`);
 };
 
 export const deleteCart = async (req, res) => {
-  req.session.cart = {};
+  // Xóa toàn bộ giỏ hàng
+  cart = {};
   res.json(`Giỏ hàng đã được xóa`);
 };
 
 export const removeFromCart = async (req, res) => {
   const productId = req.params.productId;
-  if (req.session.cart && req.session.cart[productId]) {
-    delete req.session.cart[productId]; // xóa sản phẩm  khỏi giỏ hàng
+
+  if (cart[productId]) {
+    delete cart[productId];
     res.json(`Sản phẩm đã được xóa khỏi giỏ hàng`);
+  } else {
+    res.json(`Sản phẩm không tồn tại trong giỏ hàng`);
   }
-  res.json(`Sản phẩm không tồn tại trong giỏ hàng `);
 };

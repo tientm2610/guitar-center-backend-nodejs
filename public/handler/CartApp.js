@@ -3,8 +3,8 @@ import { Cart } from "./cart.js"
 export default class CartApp {
     constructor() {
         //Lay id
-        this._productform = document.querySelector(".product-hover")
-        this._btnAdd = this._productform.querySelector("#add-to-cart-link")
+
+        this._btnAdd = document.querySelector("#add-to-cart-link")
 
 
         this._addToCart = this._addToCart.bind(this)
@@ -13,13 +13,13 @@ export default class CartApp {
 
         
     }
-    _addToCart()
+    async _addToCart()
     {
+        alert('Hello')
         const productId = this._btnAdd.getAttribute('data-productId');
-        Cart.addToCart(productId)
+        await Cart.addToCart(productId)
             .then(message => {
                 alert(message);
-                window.location.reload();
             })
             .catch(error => console.error(error))
     }
