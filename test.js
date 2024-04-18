@@ -8,7 +8,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
+
+
+
+
+
+
 const PORT = 3000;
+
+
+
+
+
 
 app.get('/image', (req, res) => {
     // Đường dẫn tới file hình ảnh
@@ -18,6 +29,8 @@ app.get('/image', (req, res) => {
     res.json(imagePath)
     // res.sendFile(imagePath);
 });
+
+
 
 app.listen(PORT, () => {
 
