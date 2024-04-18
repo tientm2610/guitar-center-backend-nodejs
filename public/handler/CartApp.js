@@ -1,4 +1,4 @@
-import { Cart } from "./Cart.js" 
+import { Cart } from "./cart.js" 
 
 export default class CartApp {
     constructor() {
