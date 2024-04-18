@@ -6,6 +6,8 @@ import categoryRouter from "./boundaries/CategoryRouter.js";
 import orderRouter from "./boundaries/OrderRouter.js";
 const api = express.Router();
 
+
+
 api.use(bodyParser.json())
 // api.use(`/products`, productService); 
 api.use(`/users`, userRouter);
