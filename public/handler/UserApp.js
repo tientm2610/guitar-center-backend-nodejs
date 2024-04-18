@@ -2,7 +2,6 @@ import User from "./User.js";
 
 export default class UserApp{
     constructor(){
-        
         //---------XU LY HANH DONG LOGIN
             //Lấy id
             this._loginform = document.querySelector('#login-form')
@@ -45,63 +44,73 @@ export default class UserApp{
             alert('Please enter username and password')
             return
         }
-
-        const res = await fetch('http://localhost:3333/api/users/',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-            })
-        })
-
-        if(res.status == 200){
-            alert('Dang nhap thanh cong')
-            window.location.href = 'http://localhost:3333/index.html'
-        }
-        else
-        {
+      const loginValidate= await User.login(username,password)
+        if(loginValidate !== undefined){
+            alert(`Đăng nhập thành công, xin chào ${loginValidate}`)
+            window.location.href = 'http://localhost:3333/'
+            
+            
+        }else{
             alert('Dang nhap that bai')
+           
         }
 
     }
-    async _onRegister()
-    {
-        //Lay thong tin gan vao bien
-        const username = this._username_register.value
-        const password = this._password_register.value
-        const fullname = this._fullname_register.value
-        const phone = this._phone_register.value
-        const address = this._address_register.value
-        const gender = this._gender_register.value
-        const birth = this._birth_register.value
-
-        //Kiem tra thong tin
-        if(!username || !password || !fullname || !phone || !address || !gender || !birth){
-            alert('Vui lòng nhập đầy đủ thông tin')
+    async _onRegister() {
+        const username = this._username_register.value;
+        const password = this._password_register.value;
+        const fullname = this._fullname_register.value;
+        const phone = this._phone_register.value;
+        const address = this._address_register.value;
+        const birth = this._birth_register.value;
+        const gender = this._gender_register.value;
+    
+        // Kiểm tra xem tất cả các trường nhập liệu đã được điền hay chưa
+        if (!username || !password || !fullname || !phone || !address || !gender || !birth) {
+            alert('Vui lòng điền đầy đủ thông tin.');
+            return;
         }
-
-        const res = await fetch(`http://localhost:3333/api/users/register`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password,
-                fullname: fullname,
-                phone: phone,
-                address: address,
-                gender: gender,
-                birth: birth
-            })
-        })
-
-        alert(`${res.body()}`)
-
-
+    
+        // Kiểm tra định dạng số điện thoại
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(phone)) {
+            alert('Số điện thoại không hợp lệ. Vui lòng nhập lại.');
+            return;
+        }
+    
+        // Kiểm tra định dạng ngày sinh
+        const birthRegex = /^\d{2}-\d{2}-\d{4}$/;
+        if (!birthRegex.test(birth)) {
+            alert('Ngày sinh không hợp lệ. Vui lòng nhập lại theo định dạng dd-mm-yyyy.');
+            return;
+        }
+    
+        // Gửi yêu cầu đăng ký nếu tất cả thông tin hợp lệ
+        try {
+            const response = await fetch('http://localhost:3333/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    fullname: fullname,
+                    phone: phone,
+                    address: address,
+                    gender: gender,
+                    birth: birth
+                })
+            });
+    
+            // Xử lý kết quả
+            // ...
+    
+        } catch (error) {
+            console.error('Error registering user:', error);
+            alert('Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại sau.');
+        }
     }
+    
 
 }

@@ -13,15 +13,26 @@ export default class User{
         this.role = data.role;
     }
     //Đăng nhập
-    async login(username,password) {
-        await fetch(`http://localhost:3333/api/users/`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username: username, password: password }),
-          });
-      
+    static async login(username, password) {
+        try {
+            const response = await fetch(`http://localhost:3333/api/users`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username: username, password: password }),
+            });
+
+            if (response.status !== 200 && !response.body) {
+                return undefined;
+            } else {
+                const {fullname} = await response.json();
+                
+                return fullname;
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+        }
     }
 
     //Đăng xuất

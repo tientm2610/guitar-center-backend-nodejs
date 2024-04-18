@@ -4,6 +4,7 @@ import userRouter from "./boundaries/UserRouter.js";
 import productRouter from "./boundaries/ProductRouter.js";
 import categoryRouter from "./boundaries/CategoryRouter.js";
 import orderRouter from "./boundaries/OrderRouter.js";
+import cartRouter from "./boundaries/CartRouter.js";
 const api = express.Router();
 
 
@@ -17,6 +18,8 @@ api.use(`/products`, productRouter);
 api.use(`/categories`, categoryRouter);
 
 api.use(`/orders`, orderRouter);
+
+api.use(`/cart`, cartRouter);
 
 api.all("/*", (req, res) => {
     let data = {
