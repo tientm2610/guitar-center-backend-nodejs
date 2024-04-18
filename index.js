@@ -44,6 +44,10 @@ app.get('/single-product/:productId', async (req,res) => {
     }
 })
 
+app.get('/single-product',(req,res) => {
+    res.render('single-product-basic')
+})
+
 
 
 app.get('/index',(req,res)=>{
