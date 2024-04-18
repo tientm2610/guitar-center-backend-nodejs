@@ -12,9 +12,12 @@ import { Product } from "./public/handler/Product.js";
 // dotenv.config();
 const app = express();
 
+
 app.set('view engine','ejs')
 app.set('views','./public/views')
 
+// Định nghĩa route để phục vụ trang HTML
+app.use(express.static('public'));
 
 app.get('/',async (req,res) => {
 
@@ -28,6 +31,20 @@ app.get('/',async (req,res) => {
     }
     
 })
+
+app.get('/single-product/:productId', async (req,res) => {
+    try {
+        const productId = req.params.productId;
+        const product = await Product.getProductDetail(productId);
+        res.render('single-product',{product});
+    } catch (error) {
+        // Xử lý lỗi nếu có
+        console.error('Error fetching products:', error);
+        res.status(500).send('Error fetching products');
+    }
+})
+
+
 
 app.get('/index',(req,res)=>{
     res.redirect('/')
@@ -70,8 +87,7 @@ app.use('/api', api);
  export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
-// Định nghĩa route để phục vụ trang HTML
-app.use(express.static('public'));
+
 
 
 

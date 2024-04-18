@@ -116,11 +116,11 @@
                                 <img src="http://localhost:3333/api/products/<%= product.productId %>/image" alt="">
                                 <div class="product-hover">
                                     <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <a href="single-product" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                    <a href="single-product/<%= product.productId %>" class="view-details-link"><i class="fa fa-link"></i> See details</a>
                                 </div>
                             </div>
                             
-                            <h2><a href="single-product"><%= product.productName %></a></h2>
+                            <h2><a href="single-product/<%= product.productId %>"><%= product.productName %></a></h2>
                             
                             <div class="product-carousel-price">
                                 <ins><%= product.price %></ins> 

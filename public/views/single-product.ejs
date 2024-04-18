@@ -17,15 +17,15 @@
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
     
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="/public/css/font-awesome.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="/public/css/owl.carousel.css">
+    <link rel="stylesheet" href="/public/style.css">
+    <link rel="stylesheet" href="/public/css/responsive.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="logo">
-                    <h1><a href="./"><img src="img/logo.png"> Guitar Center</a></h1>
+                    <h1><a href="./"><img src="/img/logo.png"> Guitar Center</a></h1>
                 </div>
             </div>
             
@@ -78,7 +78,7 @@
         <div class="container">
             <div class="row">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -133,20 +133,20 @@
                         <div class="col-sm-6">
                             <div class="product-images">
                                 <div class="product-main-img">
-                                    <img src="img/guitar.jpg" alt="">
+                                    <img src="http://localhost:3333/api/products/<%= product.productId %>/image" alt="">
                                 </div>
                             </div>
                         </div>
                         
                         <div class="col-sm-6">
                             <div class="product-inner">
-                                <h2 class="product-name">Đàn ghi ta nhập khẩu từ Nhật</h2>
+                                <h2 class="product-name"><%= product.productName %></h2>
                                 <div class="product-inner-price">
-                                    <ins>$700.00</ins> 
+                                    <ins><%= product.price %></ins> 
                                 </div>    
                                 
                                 <form action="" class="cart">
-                                    <div class="quantity">
+<div class="quantity">
                                         <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
                                     </div>
                                     <button class="add_to_cart_button" type="submit">Thêm vào giỏ hàng</button>
@@ -157,7 +157,7 @@
                                  
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="home">
-                                            <h2>Mô tả sản phẩm</h2>  
+                                            <h2><%= product.description %></h2>  
                                                   </div>
                                       
                                     </div>
@@ -190,13 +190,13 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     
     <!-- jQuery sticky menu -->
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
+    <script src="/public/js/owl.carousel.min.js"></script>
+    <script src="/public/js/jquery.sticky.js"></script>
     
     <!-- jQuery easing -->
-    <script src="js/jquery.easing.1.3.min.js"></script>
+    <script src="/public/js/jquery.easing.1.3.min.js"></script>
     
     <!-- Main Script -->
-    <script src="js/main.js"></script>
+    <script src="/public/js/main.js"></script>
   </body>
 </html>
