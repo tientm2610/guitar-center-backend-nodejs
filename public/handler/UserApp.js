@@ -1,5 +1,4 @@
 import User from "./User.js";
-import { API_URL, apiRequest } from "./apiRequest.js";
 
 export default class UserApp{
     constructor(){
@@ -20,11 +19,21 @@ export default class UserApp{
         //---------XU LY HANH DONG REGISTER
             //Lấy id
             this._registerform = document.querySelector('#register-form')
+            this._username_register = this._registerform.querySelector('#username_register')
+            this._password_register = this._registerform.querySelector('#password_register')
+            this._fullname_register = this._registerform.querySelector('#fullname_register')
+            this._phone_register = this._registerform.querySelector('#phone_register')
+            this._address_register = this._registerform.querySelector('#address_register')
+            this._gender_register = this._registerform.querySelector('input[name="gender"]:checked')
+            this._birth_register = this._registerform.querySelector('#birth_register')
+            this._btnsignup = this._registerform.querySelector('#btn_signup')
+       
 
+            //Thêm sự kiện -> bind
+            this._onRegister = this._onRegister.bind(this)
 
-        //Lấy dom từ button
-
-        //Thêm sự kiện -> bind
+            //Thêm sự kiện cho button sign up
+            this._btnsignup.addEventListener('click',this._onRegister)
     }
 
     //DANG NHAP
@@ -37,34 +46,61 @@ export default class UserApp{
             return
         }
 
-        // alert(`${username} ${password}`)
+        const res = await fetch('http://localhost:3333/api/users/',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            })
+        })
 
-        // const res = await fetch(`/`,{
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         username: username,
-        //         password: password,
-        //     })
-        // })
-
-        const res = User.login(username, password);
-
-        if(res !== null){
-            alert('Login success')
+        if(res.status == 200){
+            alert('Dang nhap thanh cong')
+            window.location.href = 'http://localhost:3333/index.html'
         }
-        else{
-            alert('Login failed')
+        else
+        {
+            alert('Dang nhap that bai')
         }
-
-
-        
 
     }
     async _onRegister()
     {
+        //Lay thong tin gan vao bien
+        const username = this._username_register.value
+        const password = this._password_register.value
+        const fullname = this._fullname_register.value
+        const phone = this._phone_register.value
+        const address = this._address_register.value
+        const gender = this._gender_register.value
+        const birth = this._birth_register.value
+
+        //Kiem tra thong tin
+        if(!username || !password || !fullname || !phone || !address || !gender || !birth){
+            alert('Vui lòng nhập đầy đủ thông tin')
+        }
+
+        const res = await fetch(`http://localhost:3333/api/users/register`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                fullname: fullname,
+                phone: phone,
+                address: address,
+                gender: gender,
+                birth: birth
+            })
+        })
+
+        alert(`${res.body()}`)
+
 
     }
 

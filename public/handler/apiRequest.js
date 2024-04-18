@@ -1,6 +1,6 @@
 // apiRequest.js
 
-let API_URL = `http:localhost:3333/api`;
+let API_URL = `http://localhost:3333/api`;
 
 if (window.API_URL) API_URL = window.API_URL;
 
@@ -30,4 +30,4 @@ const apiRequest = async (method, path, body = null) => {
   return resData;
 };
 
-export { API_URL, apiRequest };
+export  {API_URL, apiRequest};

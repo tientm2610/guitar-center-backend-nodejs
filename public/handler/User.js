@@ -1,13 +1,13 @@
-import {API_URL, apiRequest} from "./apiRequest.js";
+import {API_URL, apiRequest} from './apiRequest.js'
 
 export default class User{
 
+
+
+
     //Đăng nhập
     async login(username,password) {
-        const res = await apiRequest('POST','/users',{
-            username: username,
-            password: password,
-        })
+        const res = await apiRequest('POST',`${API_URL}/users`,{username,password})
     
         return res
     }
