@@ -4,6 +4,20 @@ export default class ProductApp {
     constructor(){
        // Gọi hàm loadProduct khi DOM đã tải hoàn toàn
        document.addEventListener('DOMContentLoaded', this.loadProduct.bind(this));
+      
+
+         // Lắng nghe sự kiện click cho tất cả các phần tử có class là "view-details-link"
+         document.querySelectorAll('.view-details-link').forEach(link => {
+             link.addEventListener('click', async (event) => {
+                 event.preventDefault(); // Ngăn chặn hành động mặc định của link
+ 
+                 // Lấy thông tin sản phẩm từ link đã nhấp vào
+                 const productId = link.dataset.productId; // Giả sử bạn lưu productId trong thuộc tính data-product-id của link
+ 
+                 // Chuyển hướng sang trang "single-product.html" với thông tin sản phẩm đã chọn
+                 window.location.href = `single-product.html?productId=${productId}`;
+             });
+         });
    
     }
 
@@ -76,102 +90,120 @@ export default class ProductApp {
             console.error('Error rendering products:', error);
         }
     };
+
+    
+displayProductDetail = (product) => {
+    // Tạo phần tử chứa sản phẩm
+    const productContainer = document.createElement('div');
+    productContainer.classList.add('col-md-8');
+    productContainer.id = 'single-product';
+
+    // Tạo hàng chứa thông tin sản phẩm
+    const productRow = document.createElement('div');
+    productRow.classList.add('row');
+
+    // Tạo cột chứa hình ảnh sản phẩm
+    const imageColumn = document.createElement('div');
+    imageColumn.classList.add('col-sm-6');
+
+    // Tạo phần tử chứa ảnh chính của sản phẩm
+    const productImages = document.createElement('div');
+    productImages.classList.add('product-images');
+    const productMainImg = document.createElement('div');
+    productMainImg.classList.add('product-main-img');
+    const imgMain = document.createElement('img');
+    imgMain.src = `http://localhost:3333/api/products/${product.productId}/image`;
+    imgMain.alt = '';
+    productMainImg.appendChild(imgMain);
+    productImages.appendChild(productMainImg);
+    imageColumn.appendChild(productImages);
+
+    // Tạo cột chứa thông tin chi tiết sản phẩm
+    const detailColumn = document.createElement('div');
+    detailColumn.classList.add('col-sm-6');
+
+    // Tạo phần tử chứa thông tin chi tiết sản phẩm
+    const productInner = document.createElement('div');
+    productInner.classList.add('product-inner');
+
+    // Tạo tiêu đề sản phẩm
+    const productName = document.createElement('h2');
+    productName.classList.add('product-name');
+    productName.textContent = product.productName; // Thay đổi tên sản phẩm thực tế
+    productInner.appendChild(productName);
+
+    // Tạo giá sản phẩm
+    const productPrice = document.createElement('div');
+    productPrice.classList.add('product-inner-price');
+    const insPrice = document.createElement('ins');
+    insPrice.textContent = '$' + product.price.toFixed(2); // Thay đổi giá sản phẩm thực tế
+    productPrice.appendChild(insPrice);
+    productInner.appendChild(productPrice);
+
+    // Tạo form thêm vào giỏ hàng
+    const cartForm = document.createElement('form');
+    cartForm.classList.add('cart');
+    const quantityDiv = document.createElement('div');
+    quantityDiv.classList.add('quantity');
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.size = '4';
+    quantityInput.classList.add('input-text', 'qty', 'text');
+    quantityInput.title = 'Qty';
+    quantityInput.value = '1';
+    quantityInput.name = 'quantity';
+    quantityInput.min = '1';
+    quantityInput.step = '1';
+    quantityDiv.appendChild(quantityInput);
+    cartForm.appendChild(quantityDiv);
+    const addToCartButton = document.createElement('button');
+    addToCartButton.type = 'submit';
+    addToCartButton.classList.add('add_to_cart_button');
+    addToCartButton.textContent = 'Thêm vào giỏ hàng';
+    cartForm.appendChild(addToCartButton);
+    productInner.appendChild(cartForm);
+
+    // Tạo tab mô tả sản phẩm
+    const tabPanel = document.createElement('div');
+    tabPanel.role = 'tabpanel';
+    const tabContent = document.createElement('div');
+    tabContent.classList.add('tab-content');
+    const tabPane = document.createElement('div');
+    tabPane.role = 'tabpanel';
+    tabPane.classList.add('tab-pane', 'fade', 'in', 'active');
+    tabPane.id = 'home';
+    const descriptionTitle = document.createElement('h2');
+    descriptionTitle.textContent = 'Mô tả sản phẩm';
+    tabPane.appendChild(descriptionTitle);
+    tabContent.appendChild(tabPane);
+    tabPanel.appendChild(tabContent);
+    productInner.appendChild(tabPanel);
+
+    detailColumn.appendChild(productInner);
+    productRow.appendChild(imageColumn);
+    productRow.appendChild(detailColumn);
+    productContainer.appendChild(productRow);
+
+    return productContainer;
 }
 
-displayProductDetail = (product) => {
-     // Tạo phần tử chứa sản phẩm
-     const productContainer = document.createElement('div');
-     productContainer.classList.add('col-md-8');
-     productContainer.id = 'single-product';
- 
-     // Tạo hàng chứa thông tin sản phẩm
-     const productRow = document.createElement('div');
-     productRow.classList.add('row');
- 
-     // Tạo cột chứa hình ảnh sản phẩm
-     const imageColumn = document.createElement('div');
-     imageColumn.classList.add('col-sm-6');
- 
-     // Tạo phần tử chứa ảnh chính của sản phẩm
-     const productImages = document.createElement('div');
-     productImages.classList.add('product-images');
-     const productMainImg = document.createElement('div');
-     productMainImg.classList.add('product-main-img');
-     const imgMain = document.createElement('img');
-     img.src = `http://localhost:3333/api/products/${product.productId}/image`;
-     imgMain.alt = '';
-     productMainImg.appendChild(imgMain);
-     productImages.appendChild(productMainImg);
-     imageColumn.appendChild(productImages);
- 
-     // Tạo cột chứa thông tin chi tiết sản phẩm
-     const detailColumn = document.createElement('div');
-     detailColumn.classList.add('col-sm-6');
- 
-     // Tạo phần tử chứa thông tin chi tiết sản phẩm
-     const productInner = document.createElement('div');
-     productInner.classList.add('product-inner');
- 
-     // Tạo tiêu đề sản phẩm
-     const productName = document.createElement('h2');
-     productName.classList.add('product-name');
-     productName.textContent = 'Đàn ghi ta nhập khẩu từ Nhật'; // Thay đổi tên sản phẩm thực tế
-     productInner.appendChild(productName);
- 
-     // Tạo giá sản phẩm
-     const productPrice = document.createElement('div');
-     productPrice.classList.add('product-inner-price');
-     const insPrice = document.createElement('ins');
-     insPrice.textContent = '$700.00'; // Thay đổi giá sản phẩm thực tế
-     productPrice.appendChild(insPrice);
-     productInner.appendChild(productPrice);
- 
-     // Tạo form thêm vào giỏ hàng
-     const cartForm = document.createElement('form');
-     cartForm.classList.add('cart');
-     const quantityDiv = document.createElement('div');
-     quantityDiv.classList.add('quantity');
-     const quantityInput = document.createElement('input');
-     quantityInput.type = 'number';
-     quantityInput.size = '4';
-     quantityInput.classList.add('input-text', 'qty', 'text');
-     quantityInput.title = 'Qty';
-     quantityInput.value = '1';
-     quantityInput.name = 'quantity';
-     quantityInput.min = '1';
-     quantityInput.step = '1';
-     quantityDiv.appendChild(quantityInput);
-     cartForm.appendChild(quantityDiv);
-     const addToCartButton = document.createElement('button');
-     addToCartButton.type = 'submit';
-     addToCartButton.classList.add('add_to_cart_button');
-     addToCartButton.textContent = 'Thêm vào giỏ hàng';
-     cartForm.appendChild(addToCartButton);
-     productInner.appendChild(cartForm);
- 
-     // Tạo tab mô tả sản phẩm
-     const tabPanel = document.createElement('div');
-     tabPanel.role = 'tabpanel';
-     const tabContent = document.createElement('div');
-     tabContent.classList.add('tab-content');
-     const tabPane = document.createElement('div');
-     tabPane.role = 'tabpanel';
-     tabPane.classList.add('tab-pane', 'fade', 'in', 'active');
-     tabPane.id = 'home';
-     const descriptionTitle = document.createElement('h2');
-     descriptionTitle.textContent = 'Mô tả sản phẩm';
-     tabPane.appendChild(descriptionTitle);
-     tabContent.appendChild(tabPane);
-     tabPanel.appendChild(tabContent);
-     productInner.appendChild(tabPanel);
- 
-     detailColumn.appendChild(productInner);
-     productRow.appendChild(imageColumn);
-     productRow.appendChild(detailColumn);
-     productContainer.appendChild(productRow);
- 
-     return productContainer;
+// Hiển thị ra chi tiết sản phẩm
+loadProductDetail = async (product) => {
+    try {
+        const productDetailContainer = document.getElementById('product-detail');
+        productDetailContainer.innerHTML = ''; // Xóa nội dung cũ trước khi tạo chi tiết mới
+
+        const productDetailElement = this.displayProductDetail(product); // Sửa thành this.displayProductDetail(product)
+        productDetailContainer.appendChild(productDetailElement);
+    } catch (error) {
+        console.error('Error rendering product detail:', error);
+    }
 }
+
+
+}
+
+
 
 const main = () => {
     new ProductApp();
