@@ -42,7 +42,7 @@ export default class User{
     }
 
     //Cập nhật thông tin người dùng
-    async updateInfo(data){
+    static async updateInfo(data){
         try {
             const user = {
                 username: data.username,
@@ -73,14 +73,14 @@ export default class User{
     }
 
     // Hiện thông tin người dùng
-    async getInfo(){
+    static async getInfo(){
         const respponse = await fetch(`http://localhost:3333/api/users/me`);
        const user = respponse.json();
         return this(user)
     }
 
     //Đăng ký tài khoản
-    async register(userData) {
+    static async register(userData) {
         try {
             const response = await fetch('http://localhost:3333/api/users/register', {
                 method: 'POST',
@@ -89,9 +89,18 @@ export default class User{
                 },
                 body: JSON.stringify(userData)
             });
-            
-            const data = await response.json();
-            return data;
+            if(response.status === 404){
+                const res = await response.json();
+                console.log(res)
+                return undefined;
+            }
+            if (response.status !== 200 && !response.body) {
+                return undefined;
+            } else {
+                const {fullname} = await response.json();
+                
+                return fullname;
+            }
         } catch (error) {
             console.error('Error registering user:', error);
             return null;
