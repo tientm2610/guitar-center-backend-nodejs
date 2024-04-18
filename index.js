@@ -6,6 +6,7 @@ import { dirname} from 'path';
 import path from "path";
 import { title } from "process";
 import { Product } from "./public/handler/Product.js";
+import { Cart } from "./public/handler/Cart.js";
 
 
 // const dotenv = require('dotenv');
@@ -18,6 +19,10 @@ app.set('views','./public/views')
 
 // Định nghĩa route để phục vụ trang HTML
 app.use(express.static('public'));
+
+
+
+
 
 app.get('/',async (req,res) => {
 
