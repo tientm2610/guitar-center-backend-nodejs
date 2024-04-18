@@ -110,21 +110,23 @@
                     <div class="latest-products" id="product-list">
 
                         <!-- load product -->
+                        <% products.forEach(product => { %>
                         <div class="single-product">
                             <div class="product-f-image">
-                                <img src="img/dan16.png" alt="">
+                                <img src="http://localhost:3333/api/products/<%= product.productId %>/image" alt="">
                                 <div class="product-hover">
                                     <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                    <a href="single-product" class="view-details-link"><i class="fa fa-link"></i> See details</a>
                                 </div>
                             </div>
                             
-                            <h2><a href="single-product.html">Đàn dân tộc_Mogu</a></h2>
+                            <h2><a href="single-product"><%= product.name %></a></h2>
                             
                             <div class="product-carousel-price">
-                                <ins>$700.00</ins> 
+                                <ins><%= product.price %></ins> 
                             </div> 
                         </div>
+                        <% }); %>
                            <!-- load product -->
                     </div>
                 </div>

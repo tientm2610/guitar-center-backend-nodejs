@@ -2,7 +2,7 @@
 
 let API_URL = `http://localhost:3333/api`;
 
-if (window.API_URL) API_URL = window.API_URL;
+
 
 export class HTTPError extends Error {
   constructor(status, message) {

@@ -13,7 +13,7 @@ export class Product{
         this.description = data.description;
     }
 
-    static async listProducts(){
+    static listProducts = async() =>{
         // const { products } = await apiRequest("GET", "/products");
         const response = await fetch(`http://localhost:3333/api/products`);
         const products = await response.json();
