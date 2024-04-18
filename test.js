@@ -21,6 +21,7 @@ const PORT = 3000;
 
 
 
+
 app.get('/image', (req, res) => {
     // Đường dẫn tới file hình ảnh
     const imagePath =  `${__dirname}/img/piano.jpg` // Thay thế 'path/to/your/image.jpg' với đường dẫn thực tế
