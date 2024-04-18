@@ -88,6 +88,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <% product.forEach(product => { %>
+                                           
                                         <tr class="cart_item">
                                             <td class="product-remove">
                                                 <a title="Remove this item" class="remove" href="#">×</a>
@@ -95,22 +97,22 @@
 
                                             <td class="product-thumbnail">
                                                 <a href="single-product"><img width="145" height="145" alt="poster_1_up"
-                                                        class="shop_thumbnail" src="img/guitar.jpg"></a>
+                                                        class="shop_thumbnail" src="http://localhost:3333/api/products/<%= product.productId %>/image"></a>
                                             </td>
 
                                             <td class="product-name">
-                                                <a href="single-product">Điện thoại của Quang (có cl)</a>
+                                                <a href="single-product"><%= product.productName %></a>
                                             </td>
 
                                             <td class="product-price">
-                                                <span class="amount">50,000,000 đ</span>
+                                                <span class="amount"><%= product.productPrice %>$</span>
                                             </td>
 
                                             <td class="product-quantity">
                                                 <div class="quantity buttons_added">
                                                     <input type="button" class="minus" value="-">
                                                     <input type="number" size="4" class="input-text qty text"
-                                                        title="Qty" value="1" min="0" step="1">
+                                                        title="Qty" value="<%= product.productName %>" min="0" step="1">
                                                     <input type="button" class="plus" value="+">
                                                 </div>
                                             </td>
@@ -118,7 +120,9 @@
                                             <td class="product-subtotal">
                                                 <span class="amount">50,000,000 đ</span>
                                             </td>
+                                            
                                         </tr>
+                                        <% }); %>
                                         <tr>
                                             <td class="actions" colspan="6">
                                                 <a href="checkout" class="button">Thanh toán</a>

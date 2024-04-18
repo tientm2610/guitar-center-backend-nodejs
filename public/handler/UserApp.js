@@ -8,12 +8,17 @@ export default class UserApp {
         this._username_login = document.querySelector("#username_login");
         this._password_login = document.querySelector("#password_login");
         this._btnLogin = this._loginform.querySelector("#btn_login");
+
+       
+
         //bind
         this._onLogin = this._onLogin.bind(this);
 
         //Khoi tao event
         this._btnLogin.addEventListener("click", this._onLogin);
 
+       
+                
         //---------XU LY HANH DONG REGISTER
         //Lấy id
         this._registerform = document.querySelector("#register-form");
@@ -127,5 +132,11 @@ export default class UserApp {
       console.error("Error registering user:", error);
       alert("Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại sau.");
     }
+  }
+
+  async _onLogout() {
+    await User.logout();
+    alert("Đăng xuất thành công");
+
   }
 }

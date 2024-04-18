@@ -36,7 +36,7 @@ export default class User{
     }
 
     //Đăng xuất
-    async logout(){
+    static async logout(){
          await fetch(`http://localhost:3333/api/users/logout`);
        
     }

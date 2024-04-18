@@ -6,6 +6,7 @@ import { dirname} from 'path';
 import path from "path";
 import { title } from "process";
 import { Product } from "./public/handler/Product.js";
+import CartApp from "./public/handler/CartApp.js";
 
 
 // const dotenv = require('dotenv');
@@ -54,8 +55,9 @@ app.get('/index',(req,res)=>{
     res.redirect('/')
 })
 
-app.get('/cart',(req,res) =>{
-    res.render('cart')
+app.get('/cart',async (req,res) =>{
+    const product = await CartApp.getAllProduct();
+    res.render('cart', {product })
 })
 
 app.get('/login', (req,res) => {
@@ -69,6 +71,7 @@ app.get('/shop', async (req,res) => {
     const products = await Product.listProducts();
     res.render('shop',{ products })
 })
+
 app.get('/single-product',(req,res) => {
     res.render('single-product')
 })
