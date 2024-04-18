@@ -44,8 +44,9 @@ app.get('/login', (req,res) => {
 app.get('/checkout',(req,res) => {
     res.render('checkout')
 })
-app.get('/shop',(req,res) => {
-    res.render('shop')
+app.get('/shop', async (req,res) => {
+    const products = await Product.listProducts();
+    res.render('shop',{ products })
 })
 app.get('/single-product',(req,res) => {
     res.render('single-product')
