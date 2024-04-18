@@ -26,6 +26,7 @@
 
     </head>
     <body>
+        <%- include('header') %>
 
 
         <div class="product-big-title-area">
@@ -59,55 +60,7 @@
                     <div class="col-md-8">
                         <div class="product-content-right">
                             <div class="woocommerce">
-                                <div class="woocommerce-info">Phản hồi của bạn?
-                                    <a class="showlogin" data-toggle="collapse"
-                                        href="#login-form-wrap"
-                                        aria-expanded="false"
-                                        aria-controls="login-form-wrap">Nhấn vào
-                                        đây để đăng nhập</a>
-                                </div>
-
-                                <form id="login-form-wrap"
-                                    class="login collapse" method="post">
-
-                                    <p>Nếu bạn đã từng mua hàng với chúng tôi
-                                        trước đây, vui lòng nhập thông tin chi
-                                        tiết của bạn vào các ô bên dưới. Nếu bạn
-                                        là khách hàng mới, vui lòng chuyển sang
-                                        phần Thanh toán & Vận chuyển.</p>
-
-                                    <p class="form-row form-row-first">
-                                        <label for="username">Username<span
-                                                class="required">*</span>
-                                        </label>
-                                        <input type="text" id="username"
-                                            name="username" class="input-text">
-                                    </p>
-                                    <p class="form-row form-row-last">
-                                        <label for="password">Password <span
-                                                class="required">*</span>
-                                        </label>
-                                        <input type="password" id="password"
-                                            name="password" class="input-text">
-                                    </p>
-                                    <div class="clear"></div>
-
-                                    <p class="form-row">
-                                        <input type="submit" value="Login"
-                                            name="login" class="button">
-                                        <label class="inline"
-                                            for="rememberme"><input
-                                                type="checkbox" value="forever"
-                                                id="rememberme"
-                                                name="rememberme"> Remember me
-                                        </label>
-                                    </p>
-                                    <p class="lost_password">
-                                        <a href="#">Quên mật khẩu?</a>
-                                    </p>
-
-                                    <div class="clear"></div>
-                                </form>
+                    
 
                                 <form id="coupon-collapse-wrap" method="post"
                                     class="checkout_coupon collapse">
@@ -138,24 +91,12 @@
                                             <div
                                                 class="woocommerce-billing-fields">
 
-                                                <p id="billing_first_name_field"
-                                                    class="form-row form-row-first validate-required">
-                                                    <label class
-                                                        for="billing_first_name">Họ<abbr
-                                                            title="required"
-                                                            class="required">*</abbr>
-                                                    </label>
-                                                    <input type="text" value
-                                                        placeholder
-                                                        id="billing_first_name"
-                                                        name="billing_first_name"
-                                                        class="input-text ">
-                                                </p>
+                                        
 
                                                 <p id="billing_last_name_field"
                                                     class="form-row form-row-last validate-required">
                                                     <label class
-                                                        for="billing_last_name">Tên
+                                                        for="billing_last_name">Số điện thoại
                                                         <abbr title="required"
                                                             class="required">*</abbr>
                                                     </label>
@@ -182,72 +123,8 @@
                                                         class="input-text ">
                                                 </p>
 
-                                                <p id="billing_address_2_field"
-                                                    class="form-row form-row-wide address-field">
-                                                    <input type="text" value
-                                                        placeholder="Apartment, suite, unit etc. (optional)"
-                                                        id="billing_address_2"
-                                                        name="billing_address_2"
-                                                        class="input-text ">
-                                                </p>
-                                                <p id="shipping_city_field"
-                                                    class="form-row form-row-wide address-field validate-required"
-                                                    data-o_class="form-row form-row-wide address-field validate-required">
-                                                    <label class
-                                                        for="shipping_city">Tỉnh/TP
-                                                        <abbr title="required"
-                                                            class="required">*</abbr>
-                                                    </label>
-                                                    <input type="text" value
-                                                        placeholder="Town / City"
-                                                        id="shipping_city"
-                                                        name="shipping_city"
-                                                        class="input-text ">
-                                                </p>
-                                                <p id="billing_state_field"
-                                                    class="form-row form-row-first address-field validate-state"
-                                                    data-o_class="form-row form-row-first address-field validate-state">
-                                                    <label class
-                                                        for="billing_state">Quốc
-                                                        gia</label>
-                                                    <input type="text"
-                                                        id="billing_state"
-                                                        name="billing_state"
-                                                        placeholder="State / County"
-                                                        value
-                                                        class="input-text ">
-                                                </p>
-
-                                                <div class="clear"></div>
-
-                                                <p id="billing_email_field"
-                                                    class="form-row form-row-first validate-required validate-email">
-                                                    <label class
-                                                        for="billing_email">Email
-                                                        <abbr title="required"
-                                                            class="required">*</abbr>
-                                                    </label>
-                                                    <input type="text" value
-                                                        placeholder
-                                                        id="billing_email"
-                                                        name="billing_email"
-                                                        class="input-text ">
-                                                </p>
-
-                                                <p id="billing_phone_field"
-                                                    class="form-row form-row-last validate-required validate-phone">
-                                                    <label class
-                                                        for="billing_phone">Số
-                                                        điện thoại <abbr
-                                                            title="required"
-                                                            class="required">*</abbr>
-                                                    </label>
-                                                    <input type="text" value
-                                                        placeholder
-                                                        id="billing_phone"
-                                                        name="billing_phone"
-                                                        class="input-text ">
-                                                </p>
+                                             
+                                            
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
