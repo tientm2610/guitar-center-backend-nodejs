@@ -1143,3 +1143,8 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     border-radius: 5px;
     cursor: pointer;
 }
+
+.product-f-image img {
+    width: 100%; /* Kích thước chiều rộng 100% của phần tử cha */
+    height: auto; /* Chiều cao tự động, giữ tỷ lệ khung hình */
+}
