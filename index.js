@@ -21,6 +21,10 @@ app.use('/api', api);
  export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
+// Định nghĩa route để phục vụ trang HTML
+app.use(express.static('public'));
+
+
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => console.log(`Server đã khởi động trên cổng ${PORT}`));
 
