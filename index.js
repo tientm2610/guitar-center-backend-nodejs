@@ -11,6 +11,8 @@ import {CartApp} from "./public/handler/CartApp.js";
 // dotenv.config();
 const app = express();
 
+// Định nghĩa route để phục vụ trang HTML
+app.use(express.static('public'));
 
 app.use(session({
     secret: 'abc', // Khóa bí mật để mã hóa session
@@ -22,14 +24,21 @@ app.use(session({
 app.set('view engine','ejs')
 app.set('views','./public/views')
 
-// Định nghĩa route để phục vụ trang HTML
-app.use(express.static('public'));
+
+
+app.use((req, res, next) => {
+    res.locals.cart = req.session.cart;
+    res.locals.user = req.session.user; // Gán thông tin người dùng từ session vào biến locals.user
+    next(); // Chuyển tiếp sang middleware hoặc route handler tiếp theo
+});
 
 app.get('/',async (req,res) => {
 
     try {
+        const user = req.session.user; // Lấy thông tin người dùng từ session
+
         const products = await Product.listProducts();
-        res.render('index', { products }); // Truyền danh sách sản phẩm vào trang EJS
+        res.render('index', { products,user: user }); // Truyền danh sách sản phẩm vào trang EJS
     } catch (error) {
         // Xử lý lỗi nếu có
         console.error('Error fetching products:', error);

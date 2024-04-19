@@ -4,15 +4,51 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
+
+                    <script>
+                        function confirmLogout() {
+                            if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
+                                // Nếu người dùng đồng ý, gọi hàm logoutUser
+                                logoutUser();
+                            } else {
+                                // Nếu người dùng hủy bỏ, không làm gì cả
+                                console.log("Đã hủy đăng xuất");
+                            }
+                        }
+                    
+                        function logoutUser() {
+                            fetch('http://localhost:3333/api/users/logout', {
+                                method: 'GET',
+                                credentials: 'include'
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    window.location.href = '/index'; // Chuyển hướng về trang đăng nhập
+                                } else {
+                                    console.error('Error logging out:', response.statusText);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error logging out:', error);
+                            });
+                        }
+                    </script>
                     <div class="user-menu">
                         <ul>
-                            <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
-                            <li><a href="cart"><i class="fa fa-user"></i> My Cart</a></li>
-                            <script src="./handler/logout.js"></script>
-                            <li><a href="#" id="btn_logout"><i class="fa fa-user"></i> Logout</a></li>
-                            <li><a href="login"><i class="fa fa-user"></i> Login</a></li>
+                            <% if (user) { %>
+                                <!-- Nếu người dùng đã đăng nhập -->
+                                <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+                                <li><a href="#" id="btn_logout"><i class="fa fa-user"></i> Logout</a></li>
+                                <li style="display: none;"><a href="login"><i class="fa fa-user"></i> Login</a></li>
+                            <% } else { %>
+                                <!-- Nếu người dùng chưa đăng nhập -->
+                                <li style="display: none;"><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+                                <li style="display: none;"><a href="#" id="btn_logout"><i class="fa fa-user"></i> Logout</a></li>
+                                <li><a href="login"><i class="fa fa-user"></i> Login</a></li>
+                            <% } %>
                         </ul>
                     </div>
+                    
                 </div>
             </div>
         </div>
