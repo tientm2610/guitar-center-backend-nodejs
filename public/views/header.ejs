@@ -5,34 +5,7 @@
             <div class="row">
                 <div class="col-md-8">
 
-                    <script>
-                        function confirmLogout() {
-                            if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
-                                // Nếu người dùng đồng ý, gọi hàm logoutUser
-                                logoutUser();
-                            } else {
-                                // Nếu người dùng hủy bỏ, không làm gì cả
-                                console.log("Đã hủy đăng xuất");
-                            }
-                        }
-                    
-                        function logoutUser() {
-                            fetch('http://localhost:3333/api/users/logout', {
-                                method: 'GET',
-                                credentials: 'include'
-                            })
-                            .then(response => {
-                                if (response.ok) {
-                                    window.location.href = '/index'; // Chuyển hướng về trang đăng nhập
-                                } else {
-                                    console.error('Error logging out:', response.statusText);
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error logging out:', error);
-                            });
-                        }
-                    </script>
+                    <script type="module" src="/handler/logout.js"></script>
                     <div class="user-menu">
                         <ul>
                             <% if (user) { %>

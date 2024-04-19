@@ -1,19 +1,25 @@
-function logoutUser() {
-    // Gọi API để logout
-    fetch('http://localhost:3333/api/users/logout', {
-        method: 'GET',
-        credentials: 'include' // Đảm bảo gửi cookie khi sử dụng session
-    })
-    .then(response => {
-        // Kiểm tra xem việc logout thành công hay không
-        if (response.ok) {
-            // Chuyển hướng hoặc thực hiện các thao tác khác sau khi logout thành công
-            window.location.href = '/login'; // Chuyển hướng về trang đăng nhập
-        } else {
-            console.error('Error logging out:', response.statusText);
+export class logout{
+    constructor()
+    {
+        this._btnlogout = document.querySelector("#btn_logout");
+
+        this._onLogout = this._onLogout.bind(this);
+        this._btnlogout.addEventListener("click", this._onLogout);
+    }
+    async _onLogout()
+    {
+        let result = confirm('Bạn có muốn đăng xuất không ?')
+
+        if(result)
+        {
+            await fetch('http://localhost:3333/api/users/logout')
+            .then(message => {
+                alert('Đăng xuất thành công')
+                window.location.href = "http://localhost:3333/";
+            })
+            .catch(error => console.error(error))
         }
-    })
-    .catch(error => {
-        console.error('Error logging out:', error);
-    });
+        
+    }
 }
+new logout();
