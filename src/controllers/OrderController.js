@@ -95,7 +95,7 @@ export const insertOrderWithSession = async (req, res) => {
 
     // orderDetails phải là một mảng
     if (!orderDetails || !Array.isArray(orderDetails)) {
-        return res.status(400).json({ error: "orderDetails must be an array" });
+        return res.status(401).json({ error: "orderDetails must be an array" });
     }
     
     // kiểm tra login
@@ -106,10 +106,12 @@ export const insertOrderWithSession = async (req, res) => {
     // phân rã từ order trong body
     const {address, phone} = order;
 
-    // ngày tạo đơn hàng
-    const orderDate = new Date();
+  // ngày tạo đơn hàng
+ const datetime = new Date()
+ const orderDate = `${datetime.getDate()}-${datetime.getMonth() + 1}-${datetime.getFullYear()}, ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`;
+
     // mã đơn hàng bằng chuỗi số ngày tháng năm giờ phút giây
-    const orderId = `${orderDate.getDate()}${orderDate.getMonth() + 1}${orderDate.getFullYear()}${orderDate.getHours()}${orderDate.getMinutes()}${orderDate.getSeconds()}`;
+    const orderId = `${datetime.getDate()}${datetime.getMonth() + 1}${datetime.getFullYear()}${datetime.getHours()}${datetime.getMinutes()}${datetime.getSeconds()}`;
 
     // lặp qua mảng  orderDetails để thêm mã đơn hàng cho mỗi orderDetail
     const orderDetailHaveOrderId = orderDetails.map((detail) => {
@@ -165,11 +167,12 @@ export const insertOrder = async (req, res) => {
 
     // phân rã từ order trong body
     const {address, phone} = order;
+ // ngày tạo đơn hàng
+ const datetime = new Date()
+ const orderDate = `${datetime.getDate()}-${datetime.getMonth() + 1}-${datetime.getFullYear()}, ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`;
 
-    // ngày tạo đơn hàng
-    const orderDate = new Date();
-    // mã đơn hàng bằng chuỗi số ngày tháng năm giờ phút giây
-    const orderId = `${orderDate.getDate()}${orderDate.getMonth() + 1}${orderDate.getFullYear()}${orderDate.getHours()}${orderDate.getMinutes()}${orderDate.getSeconds()}`;
+ // mã đơn hàng bằng chuỗi số ngày tháng năm giờ phút giây
+ const orderId = `${datetime.getDate()}${datetime.getMonth() + 1}${datetime.getFullYear()}${datetime.getHours()}${datetime.getMinutes()}${datetime.getSeconds()}`;
 
     // lặp qua mảng  orderDetails để thêm mã đơn hàng cho mỗi orderDetail
     const orderDetailHaveOrderId = orderDetails.map((detail) => {
