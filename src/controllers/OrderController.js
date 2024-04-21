@@ -89,7 +89,6 @@ export const getOrderDetailsByOrderId = async (req, res) =>{
 
 export const insertOrderWithSession = async (req, res) => {
     const { order, orderDetails } = req.body;
-
     // lấy username đang đăng nhập được lưu trong session
     const username = req.session.user; 
 

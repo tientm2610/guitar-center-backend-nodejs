@@ -22,6 +22,7 @@ export default class OrderDetails {
 
   static insertOrderDetails = async (orderDetails) => {
     try {
+      console.log(orderDetails)
       await orderDetailsColl.insertMany(orderDetails);
       const orderDetais = new OrderDetails(orderDetails);
       return orderDetais;
