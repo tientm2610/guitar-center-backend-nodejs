@@ -19,7 +19,7 @@ if (!username) {
 }
     const user = await User.getUserByUsername(username)
     if (!user) {
-      res.status(404).json({ error: `Username ${username} does not exist` });
+    return  res.status(404).json({ error: `Username ${username} does not exist` });
     } 
     res.json(user);
 }
@@ -33,7 +33,7 @@ return res.status(401).json({ error: "User not logged in" });
 }
   const user = await User.getUserByUsername(username)
   if (!user) {
-    res.status(404).json({ error: `Username ${username} does not exist` });
+  return  res.status(404).json({ error: `Username ${username} does not exist` });
   } 
   res.json(user);
 }
