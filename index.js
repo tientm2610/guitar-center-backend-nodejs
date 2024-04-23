@@ -16,7 +16,9 @@ app.use(express.json());
 
 // Cấu hình CORS
 app.use(cors({
-    origin: "http://localhost:3000", // Cho phép giao tiếp từ nguồn này
+    origin: (requestOrigin, callback) => {
+      callback(null, requestOrigin);
+    }, // Cho phép giao tiếp từ nguồn này
     credentials: true // Cho phép gửi cookie (nếu có)
   }));
 
