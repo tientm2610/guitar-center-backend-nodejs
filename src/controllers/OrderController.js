@@ -63,26 +63,17 @@ export const getOrderDetailsByOrderIdWithSession = async (req, res) =>{
 }
 
 export const getOrderDetailsByOrderId = async (req, res) =>{
-    const {username} = req.params;
     const {orderId} = req.params
 
-    // Kiểm tra xem người dùng đã đăng nhập chưa
-    if (!username) {
-    return res.status(401).json({ error: "User not logged in" });
-    }
-    
     try {
-      
-        const orderDetails = await OrderDetails.getOrderDetailsByOrderId(orderId)
-        if(orderDetails.length > 0){
-           return res.json(orderDetails);
-        }else{
-            return res.status(401).json({ error: "Orderdetail does not exist" });
+        const orderDetails = await OrderDetails.getOrderDetailsByOrderId(orderId);
+        if (orderDetails) {
+            return res.json(orderDetails);
         }
-
-       
     } catch (error) {
-        throw error;
+        return res
+                .status(404)
+                .json({error: error.message})
     }
 }
 
@@ -99,7 +90,7 @@ export const insertOrderWithSession = async (req, res) => {
     
     // kiểm tra login
     if (!username) {
-        return res.status(400).json({ error: "User not logged in" });
+        return res.status(400).json({ error: "Cần đăng nhập để đặt hàng" });
     }
 
     // phân rã từ order trong body
@@ -161,7 +152,7 @@ export const insertOrder = async (req, res) => {
     
     // kiểm tra login
     if (!username) {
-        return res.status(400).json({ error: "User not logged in" });
+        return res.status(400).json({ error: "Cần đăng nhập để đặt hàng" });
     }
 
     // phân rã từ order trong body
@@ -227,6 +218,20 @@ export const updateOrderStatus = async (req, res) => {
         const orderNewData = {orderId, address, phone, status, totalprice, username };
         await Order.updateStatusOrder(orderNewData);
         res.json({update: true})
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteOrder = async (req, res) => {
+    try {
+        const {orderId} = req.params;
+        const orderExist = await Order.getOrderById(orderId);
+        if(!orderExist){
+            return res.status(404).json({ error: `Order ${orderId} does not exists` })
+        }
+        await Order.deleteOrder(orderId);
+        res.json({delete: true})
     } catch (error) {
         throw error;
     }

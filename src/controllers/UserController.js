@@ -27,10 +27,12 @@ if (!username) {
 
 export const getUserByUserName = async(req, res) =>{
   const {username} =   req.params;
-  // Kiểm tra xem người dùng đã đăng nhập chưa
-if (!username) {
-return res.status(401).json({ error: "User not logged in" });
-}
+
+  //kiểm tra người dùng đã nhập chưa 
+  if(!username){
+    return res.status(401).json({ error: "Username connot be empty" });
+  }
+
   const user = await User.getUserByUsername(username)
   if (!user) {
   return  res.status(404).json({ error: `Username ${username} does not exist` });
@@ -119,6 +121,20 @@ if (!username) {
     res.status(500).json({ error: "Failed to update user information" });
 }
 
+}
+
+export const deleteUser = async(req, res) =>{
+  try {
+    const { username } = req.params;
+    const userExist = await User.getUserByUsername(username);
+    if(!userExist){
+      return res.status(404).json({ error: `User ${username} does not exists` });
+    }
+    await User.deleteUser(username);
+    return res.json({deleteSuccess:true});
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
 }
 
 
