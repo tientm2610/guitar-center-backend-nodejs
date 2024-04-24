@@ -156,3 +156,19 @@ export const logoutUser = async (req, res) => {
       res.json({ message: 'Logout successful' });
   });
 };
+
+export const checkLoginStatus = async (req, res) => {
+  try {
+    const username = req.session.user;
+
+    if(username){
+      return res.status(200).json({loginStatus:true});
+    }else{
+      return res.status(404).json({loginStatus:false});
+    }
+    
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+
+  }
+}

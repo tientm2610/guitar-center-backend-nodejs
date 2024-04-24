@@ -27,6 +27,7 @@ userRouter.put(`/update-infor`, userController.updateUserWithSession);
 //người dùng chỉnh sửa thông tin hoặc thay đổi mật khẩu
 // userRouter.put(`/:username/update-infor`, userController.updateUser);
 
+userRouter.get(`/check-login-status`, userController.checkLoginStatus);
 
 
 export default userRouter;
