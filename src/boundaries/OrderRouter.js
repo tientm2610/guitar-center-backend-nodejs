@@ -6,8 +6,11 @@ const orderRouter = express.Router();
 // admin xem danh sach tat ca đơn hàng
 orderRouter.get(`/`, orderController.getAllOrders)
 
-// người dùng đặt hàng với session
+// người dùng đặt hàng chưa thanh toán 
 orderRouter.post("/add", orderController.insertOrderWithSession);
+
+// người dùng đặt hàng đã thanh toán 
+orderRouter.post("/add-payment", orderController.insertOrderWithSessionPayment);
 
 //người dùng xem danh sách đơn hàng của mình bằng session
 orderRouter.get(`/my-orders`, orderController.getOrderByUsernameWithSession)
@@ -15,7 +18,6 @@ orderRouter.get(`/my-orders`, orderController.getOrderByUsernameWithSession)
 
 //người dùng xem chi tiết đơn  với session
 orderRouter.get(`/my-orders/:orderId`, orderController.getOrderDetailsByOrderIdWithSession)
-
 
 
 //admin xem chi tiết đơn hàng của đơn hàng

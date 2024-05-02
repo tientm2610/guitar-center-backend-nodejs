@@ -109,7 +109,68 @@ export const insertOrderWithSession = async (req, res) => {
         return { price, unit, orderId, productId };
     });
     // cho trạng thái đơn hàng mới đặt là đang xử lý
-    const status = `Đang xử lý`;
+    const status = `Chưa thanh toán`;
+
+    let totalPrice = 0;
+
+    for (const detail of orderDetailHaveOrderId) {
+        const price = detail.price;
+        const unit = detail.unit;
+        
+        // Tính tổng giá tiền của sản phẩm hiện tại và cộng vào tổng
+        const productTotalPrice = price * unit;
+        totalPrice += productTotalPrice;
+    }
+
+    const orderData = { orderId, address, orderDate, phone, status, totalPrice, username };
+
+    try {
+        await Order.insertOrder(orderData);
+
+        // Chuyển parsedOrderDetails thành một mảng các tài liệu để chèn vào cơ sở dữ liệu
+        const orderDetailsToInsert = orderDetailHaveOrderId.map(detail => new OrderDetails(detail));
+
+        // Chèn các orderDetails vào cơ sở dữ liệu
+        await OrderDetails.insertOrderDetails(orderDetailsToInsert);
+
+        res.json({ insertOrder: true });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const insertOrderWithSessionPayment = async (req, res) => {
+    const { order, orderDetails } = req.body;
+    // lấy username đang đăng nhập được lưu trong session
+    const username = req.session.user; 
+
+    // orderDetails phải là một mảng
+    if (!orderDetails || !Array.isArray(orderDetails)) {
+        return res.status(401).json({ error: "orderDetails must be an array" });
+    }
+    
+    // kiểm tra login
+    if (!username) {
+        return res.status(400).json({ error: "Cần đăng nhập để đặt hàng" });
+    }
+
+    // phân rã từ order trong body
+    const {address, phone} = order;
+
+  // ngày tạo đơn hàng
+ const datetime = new Date()
+ const orderDate = `${datetime.getDate()}-${datetime.getMonth() + 1}-${datetime.getFullYear()}, ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}`;
+
+    // mã đơn hàng bằng chuỗi số ngày tháng năm giờ phút giây
+    const orderId = `${datetime.getDate()}${datetime.getMonth() + 1}${datetime.getFullYear()}${datetime.getHours()}${datetime.getMinutes()}${datetime.getSeconds()}`;
+
+    // lặp qua mảng  orderDetails để thêm mã đơn hàng cho mỗi orderDetail
+    const orderDetailHaveOrderId = orderDetails.map((detail) => {
+        const { price, unit, productId } = detail;
+        return { price, unit, orderId, productId };
+    });
+    // cho trạng thái đơn hàng mới đặt là đang xử lý
+    const status = `Đã thanh toán`;
 
     let totalPrice = 0;
 
